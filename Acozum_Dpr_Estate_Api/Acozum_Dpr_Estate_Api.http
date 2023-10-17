@@ -1,0 +1,6 @@
+@Acozum_Dpr_Estate_Api_HostAddress = http://localhost:5003
+
+GET {{Acozum_Dpr_Estate_Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

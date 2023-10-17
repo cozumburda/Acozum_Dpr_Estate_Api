@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34112.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acozum_Dpr_Estate_Api", "Acozum_Dpr_Estate_Api\Acozum_Dpr_Estate_Api.csproj", "{E7E5E838-3FE5-4CC8-A7EC-E5A6BE16B224}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acozum_Dpr_Estate_UI", "Acozum_Dpr_Estate_UI\Acozum_Dpr_Estate_UI.csproj", "{24CABA7A-2554-4D2E-B9B1-7E56178D146D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E7E5E838-3FE5-4CC8-A7EC-E5A6BE16B224}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7E5E838-3FE5-4CC8-A7EC-E5A6BE16B224}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7E5E838-3FE5-4CC8-A7EC-E5A6BE16B224}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7E5E838-3FE5-4CC8-A7EC-E5A6BE16B224}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24CABA7A-2554-4D2E-B9B1-7E56178D146D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24CABA7A-2554-4D2E-B9B1-7E56178D146D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24CABA7A-2554-4D2E-B9B1-7E56178D146D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24CABA7A-2554-4D2E-B9B1-7E56178D146D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5FA8D226-3B58-4415-9BC7-F4990CF8393C}
+	EndGlobalSection
+EndGlobal
