@@ -54,5 +54,48 @@ namespace Acozum_Dpr_Estate_UI.Controllers
             }
             return View("Kategori Silinmedi");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateCategory(int id) 
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync($"https://localhost:44371/api/Categories/{id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var jsondata=await responseMessage.Content.ReadAsStringAsync();
+                var values = JsonConvert.DeserializeObject<UpdateCategoryDto>(jsondata);
+                return View(values);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateCategory(UpdateCategoryDto updateCategoryDto)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var jsondata = JsonConvert.SerializeObject(updateCategoryDto);
+            StringContent stringContent = new StringContent(jsondata, Encoding.UTF8, "application/json");
+            var responseMessage = await client.PutAsync("https://localhost:44371/api/Categories", stringContent);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            return View("Kategori Güncellenmedi");
+        }
+        public async Task<IActionResult> ChangeStatusCategory(int id, UpdateCategoryDto updateCategoryDto)
+        {
+            updateCategoryDto.CategoryID = 0;
+            updateCategoryDto.CategoryName = "string";
+            updateCategoryDto.CategoryStatus = true;
+            var client = _httpClientFactory.CreateClient();            
+            var jsondata = JsonConvert.SerializeObject(updateCategoryDto);
+            StringContent stringContent = new StringContent(jsondata, Encoding.UTF8, "application/json");
+            var responseMessage = await client.PutAsync($"https://localhost:44371/api/Categories/{id}",stringContent);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            return View("Durum Değiştirilemedi_1!");
+        }
     }
 }

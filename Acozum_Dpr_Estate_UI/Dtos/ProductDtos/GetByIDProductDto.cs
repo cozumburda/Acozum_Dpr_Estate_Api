@@ -1,6 +1,6 @@
 ﻿namespace Acozum_Dpr_Estate_UI.Dtos.ProductDtos
 {
-    public class ResultProductDtos
+    public class GetByIDProductDto
     {
         public int productID { get; set; }
         public string ProductTitle { get; set; }

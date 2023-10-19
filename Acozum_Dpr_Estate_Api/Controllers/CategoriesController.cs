@@ -46,8 +46,28 @@ namespace Acozum_Dpr_Estate_Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategory(int id)
         {
-            var value= await _categoryRepository.GetCategory(id);
+            var value = await _categoryRepository.GetCategory(id);
             return Ok(value);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> ChangeStatusCategory(int id, UpdateCategoryDto updateCategoryDto)
+        {
+            var value = await _categoryRepository.GetCategory(id);
+
+            if (value.CategoryStatus == true)
+            {
+                value.CategoryStatus = false;
+            }
+            else if (value.CategoryStatus == false)
+            {
+                value.CategoryStatus = true;
+            }
+            updateCategoryDto.CategoryID = id;
+            updateCategoryDto.CategoryName = value.CategoryName;
+            updateCategoryDto.CategoryStatus = value.CategoryStatus;
+            _categoryRepository.UpdateCategory(updateCategoryDto);
+            return Ok("Durum Değiştirildi");
         }
     }
 }

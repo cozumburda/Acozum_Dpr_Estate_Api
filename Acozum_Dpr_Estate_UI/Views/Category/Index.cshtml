@@ -52,8 +52,8 @@
                             <td>@item.CategoryName</td>
                             <td><span class="@stacolor">@stayazi <i class="@staicon"></i></span></td>
                             <td><a href="/Category/DeleteCategory/@item.CategoryID" class="btn btn-outline-danger">Sil</a></td>
-                            <td><a href="#" class="@delcolor"><i class="@delicon"></i> @delyazi</a></td>                            
-                            <td><a href="#" class="btn btn-outline-primary">Güncelle</a></td>
+                            <td><a href="/Category/ChangeStatusCategory/@item.CategoryID" class="@delcolor"><i class="@delicon"></i> @delyazi</a></td>
+                            <td><a href="/Category/UpdateCategory/@item.CategoryID" class="btn btn-outline-primary">Güncelle</a></td>
 
                         </tr>
                     }
