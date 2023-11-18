@@ -1,4 +1,5 @@
-﻿using Acozum_Dpr_Estate_UI.Dtos.WhoWeAreDtos;
+﻿using Acozum_Dpr_Estate_UI.Dtos.ServiceDtos;
+using Acozum_Dpr_Estate_UI.Dtos.WhoWeAreDtos;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 

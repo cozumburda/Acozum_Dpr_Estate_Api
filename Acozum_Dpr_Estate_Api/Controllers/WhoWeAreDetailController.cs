@@ -29,7 +29,7 @@ namespace Acozum_Dpr_Estate_Api.Controllers
             return Ok("Hakkımızda Kısmı Başarılı bir şekilde eklendi.");
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWhoWeAreDetail(int id)
         {
             _whoWeAreDetailRepository.DeleteWhoWeAreDetail(id);

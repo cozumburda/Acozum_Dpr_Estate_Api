@@ -1,6 +1,6 @@
-﻿namespace Acozum_Dpr_Estate_UI.Dtos.WhoWeAreDtos
+﻿namespace Acozum_Dpr_Estate_UI.Dtos.ServiceDtos
 {
-    public class ResultServiceDto
+    public class GetByIDServiceDto
     {
         public int ServiceID { get; set; }
         public string ServiceName { get; set; }

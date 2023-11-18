@@ -1,4 +1,5 @@
-﻿using Acozum_Dpr_Estate_Api.Repositories.BottomGridRepositories;
+﻿using Acozum_Dpr_Estate_Api.Dtos.BottomGridDtos;
+using Acozum_Dpr_Estate_Api.Repositories.BottomGridRepositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Acozum_Dpr_Estate_Api.Controllers
@@ -19,5 +20,32 @@ namespace Acozum_Dpr_Estate_Api.Controllers
             var values = await _bottomGridRepository.GetAllBottomGridAsync();
             return Ok(values);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateBottomGrid(CreateBottomGridDto createBottomGridDto)
+        {
+            _bottomGridRepository.CreateBottomGrid(createBottomGridDto);
+            return Ok("Veri Başarılı bir şekilde eklendi.");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBottomGrid(int id)
+        {
+            _bottomGridRepository.DeleteBottomGrid(id);
+            return Ok("Veri Kısmı Silindi");
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateBottomGrid(UpdateBottomGridDto updateBottomGridDto)
+        {
+            _bottomGridRepository.UpdateBottomGrid(updateBottomGridDto);
+            return Ok("Veri Başarılı Bir Şekilde Güncellendi");
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetBottomGrid(int id)
+        {
+            var value = await _bottomGridRepository.GetBottomGrid(id);
+            return Ok(value);
+        }      
     }
 }
