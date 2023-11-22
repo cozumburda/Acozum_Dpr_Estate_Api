@@ -3,7 +3,7 @@
     public class UpdateProductDto
     {
         public int productID { get; set; }
-        public string ProductTitle { get; set; }
+        public string productTitle { get; set; }
         public decimal price { get; set; }
         public string city { get; set; }
         public string district { get; set; }
@@ -12,6 +12,8 @@
         public string description { get; set; }
         public string coverimage { get; set; }
         public string name { get; set; }
-        public string Type { get; set; }
+        public string type { get; set; }
+        public bool dealOfTheDate { get; set; }
+
     }
 }

@@ -3,6 +3,7 @@ using Acozum_Dpr_Estate_UI.Dtos.ProductDtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace Acozum_Dpr_Estate_UI.Controllers
 {
@@ -45,6 +46,30 @@ namespace Acozum_Dpr_Estate_UI.Controllers
             ViewBag.v=categoryValues;
 
             return View();
+        }
+
+        public async Task<IActionResult> ProductDealOfTheDayStatusChangeToTrue(int id)
+        {
+
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync($"https://localhost:44371/api/Products/ProductDealOfTheDayStatusChangeToTrue/{id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }            
+            return View("Durum Değiştirilemedi_1!");
+        }
+
+        public async Task<IActionResult> ProductDealOfTheDayStatusChangeToFalse(int id)
+        {
+
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync($"https://localhost:44371/api/Products/ProductDealOfTheDayStatusChangeToFalse/{id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            return View("Durum Değiştirilemedi_1!");
         }
     }
 }

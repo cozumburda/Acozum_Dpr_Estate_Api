@@ -6,5 +6,11 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
     {
         Task<List<ResultProductDto>> GetAllProductAsync();
         Task<List<ResultProductWithCategoryDto>> GetAllProductWithCategoryAsync();
+        void CreateProductWithCategory(CreateProductWithCategoryDto createProductWithCategoryDto);
+        void DeleteProductWithCategory(int id);
+        void UpdateProductWithCategory(UpdateProductWithCategoryDto updateProductWithCategoryDto);
+        Task<GetByIDProductWithCategoryDto> GetProductWithCategory(int id);
+        void ProductDealOfTheDayStatusChangeToTrue(int id);
+        void ProductDealOfTheDayStatusChangeToFalse(int id);
     }
 }

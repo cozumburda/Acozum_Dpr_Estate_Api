@@ -1,4 +1,5 @@
-﻿using Acozum_Dpr_Estate_Api.Repositories.ProductRepository;
+﻿using Acozum_Dpr_Estate_Api.Dtos.ProductDtos;
+using Acozum_Dpr_Estate_Api.Repositories.ProductRepository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Acozum_Dpr_Estate_Api.Controllers
@@ -26,6 +27,47 @@ namespace Acozum_Dpr_Estate_Api.Controllers
         {
             var values = await _productRepository.GetAllProductWithCategoryAsync();
             return Ok(values);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct(CreateProductWithCategoryDto createProductWithCategoryDto)
+        {
+            _productRepository.CreateProductWithCategory(createProductWithCategoryDto);
+            return Ok("Veri Başarılı bir şekilde eklendi.");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            _productRepository.DeleteProductWithCategory(id);
+            return Ok("Veri Kısmı Silindi");
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateProduct(UpdateProductWithCategoryDto updateProductWithCategoryDto)
+        {
+            _productRepository.UpdateProductWithCategory(updateProductWithCategoryDto);
+            return Ok("Veri Başarılı Bir Şekilde Güncellendi");
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProduct(int id)
+        {
+            var value = await _productRepository.GetProductWithCategory(id);
+            return Ok(value);
+        }
+
+        [HttpGet("ProductDealOfTheDayStatusChangeToTrue/{id}")]
+        public async Task<IActionResult> ProductDealOfTheDayStatusChangeToTrue(int id)
+        {
+             _productRepository.ProductDealOfTheDayStatusChangeToTrue(id);
+            return Ok("İlan Günün Fırsatları Arasına Eklendi");
+        }
+
+        [HttpGet("ProductDealOfTheDayStatusChangeToFalse/{id}")]
+        public async Task<IActionResult> ProductDealOfTheDayStatusChangeToFalse(int id)
+        {
+            _productRepository.ProductDealOfTheDayStatusChangeToFalse(id);
+            return Ok("İlan Günün Fırsatları Arasından Çıkarıldı");
         }
     }
 }

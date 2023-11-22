@@ -8,6 +8,9 @@
 @{string typcolor = ""; }
 @{string catcolor = ""; }
 @{string catyazi = ""; }
+@{string deal = ""; }
+@{string dealtype = ""; }
+@{string lnk = ""; }
 <div class="col-12">
     <div class="bg-light rounded h-100 p-4">
         <h6 class="mb-4">İlan Listesi</h6>
@@ -25,12 +28,13 @@
                         <th scope="col">Sil</th>
                         <th scope="col">Güncelle</th>
                         <th scope="col">Sitede Gör</th>
+                        <th scope="col">Günün Fırsatı</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        switch (item.Type)
+                        switch (item.type)
                         {
                             case "Satılık":                                
                                 typcolor = "btn btn-success";
@@ -58,10 +62,23 @@
                                 caticon = "fa fa-building";
                                 catyazi = "Daire";
                                 break;
+                        }                                   
+                        switch (item.dealOfTheDay)
+                        {
+                            case true:
+                                deal = "btn btn-outline-danger";
+                                dealtype = "Pasif Yap";
+                                lnk = "/Product/ProductDealOfTheDayStatusChangeToFalse";
+                                break;
+                            case false:
+                                deal = "btn btn-outline-success";
+                                dealtype = "Aktif Yap";
+                                lnk = "/Product/ProductDealOfTheDayStatusChangeToTrue";
+                                break;
                         }
                         <tr>
                             <th scope="row">@item.productID</th>
-                            <td>@item.ProductTitle</td>
+                            <td>@item.productTitle</td>
                             <td>@item.city</td>
                             <td>@item.district</td>
                             <td><span class="@catcolor"> @catyazi <i class="@caticon"></i> </span> </td>
@@ -70,6 +87,7 @@
                             <td><a href="/Product/DeleteProduct/@item.productID" class="btn btn-outline-danger">Sil</a></td>
                             <td><a href="/Product/UpdateProduct/@item.productID" class="btn btn-outline-success">Güncelle</a></td>
                             <td><a href="/Product/ProductDetail/@item.productID" class="btn btn-outline-primary">Sitede Gör</a></td>
+                            <td><a href="@lnk/@item.productID" class="@deal">@dealtype</a></td>
 
                         </tr>
                     }
