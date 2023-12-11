@@ -12,5 +12,6 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
         Task<GetByIDProductWithCategoryDto> GetProductWithCategory(int id);
         void ProductDealOfTheDayStatusChangeToTrue(int id);
         void ProductDealOfTheDayStatusChangeToFalse(int id);
+        Task<List<ResultProductWithCategoryDto>> GetLast5ProductAsync();
     }
 }

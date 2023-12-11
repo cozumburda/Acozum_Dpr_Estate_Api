@@ -69,5 +69,21 @@ namespace Acozum_Dpr_Estate_Api.Controllers
             _productRepository.ProductDealOfTheDayStatusChangeToFalse(id);
             return Ok("İlan Günün Fırsatları Arasından Çıkarıldı");
         }
+
+        [HttpGet("Last5ProductList")]
+        public async Task<IActionResult> Last5ProductList()
+        {
+            var values = await _productRepository.GetLast5ProductAsync();
+            return Ok(values);
+        }
+
+        [HttpGet("ProductListLast5")]
+        public async Task<IActionResult> ProductListLast5()
+        {
+            var values1 = await _productRepository.GetAllProductWithCategoryAsync();
+            var list5 = values1.Where(x=>x.type=="Kiralık").OrderByDescending(x => x.productID);
+            var top5 = list5.Take(5);
+            return Ok(top5);
+        }
     }
 }

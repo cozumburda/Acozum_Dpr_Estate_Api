@@ -11,6 +11,7 @@
 @{string deal = ""; }
 @{string dealtype = ""; }
 @{string lnk = ""; }
+@{int count = 0; }
 <div class="col-12">
     <div class="bg-light rounded h-100 p-4">
         <h6 class="mb-4">İlan Listesi</h6>
@@ -76,14 +77,15 @@
                                 lnk = "/Product/ProductDealOfTheDayStatusChangeToTrue";
                                 break;
                         }
+                        count++;
                         <tr>
-                            <th scope="row">@item.productID</th>
+                            <th scope="row">@count</th>
                             <td>@item.productTitle</td>
                             <td>@item.city</td>
                             <td>@item.district</td>
-                            <td><span class="@catcolor"> @catyazi <i class="@caticon"></i> </span> </td>
+                            <td><span class="@catcolor">@catyazi <i class="@caticon"></i> </span> </td>
                             <td>@item.price</td>
-                            <td> <span class="@typcolor"> @typyazi </span> </td>
+                            <td> <span class="@typcolor">@typyazi </span> </td>
                             <td><a href="/Product/DeleteProduct/@item.productID" class="btn btn-outline-danger">Sil</a></td>
                             <td><a href="/Product/UpdateProduct/@item.productID" class="btn btn-outline-success">Güncelle</a></td>
                             <td><a href="/Product/ProductDetail/@item.productID" class="btn btn-outline-primary">Sitede Gör</a></td>

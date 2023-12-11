@@ -15,8 +15,8 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
 
         public async void CreateProductWithCategory(CreateProductWithCategoryDto createProductWithCategoryDto)
         {
-            string query = "insert into Product(ProductTitle,Price,City,Address,CoverImage,District,Description,Type,CategoryName,Name,DealOfTheDay) " +
-                "values (@productTitle,@price,@city,@address,@coverImage,@district,@description,@type,@categoryName,@name,@dealOfTheDay)";
+            string query = "insert into Product(ProductTitle,Price,City,Address,CoverImage,District,Description,Type,CategoryName,Name,DealOfTheDay,AdvertisementDate) " +
+                "values (@productTitle,@price,@city,@address,@coverImage,@district,@description,@type,@categoryName,@name,@dealOfTheDay,@advertisementDate)";
             var parameters = new DynamicParameters();
             parameters.Add("@productTitle", createProductWithCategoryDto.productTitle);
             parameters.Add("@price", createProductWithCategoryDto.price);
@@ -29,6 +29,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
             parameters.Add("@categoryName", createProductWithCategoryDto.productCategory);
             parameters.Add("@name", createProductWithCategoryDto.employeeID);
             parameters.Add("@dealOfTheDay", createProductWithCategoryDto.dealOfTheDay);
+            parameters.Add("@advertisementDate", createProductWithCategoryDto.advertisementDate);
             using (var connection = _context.CreateConnection())
             {
                 await connection.ExecuteAsync(query, parameters);
@@ -58,7 +59,17 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
 
         public async Task<List<ResultProductWithCategoryDto>> GetAllProductWithCategoryAsync()
         {
-            string query = "Select ProductID,ProductTitle,Price,City,Address,CoverImage,District,Description,Type,CategoryName,Name,DealOfTheDay from Product inner join Category on Product.ProductCategory=Category.CategoryID  inner join Employee on Product.EmployeeID=Employee.EmployeeID";
+            string query = "Select ProductID,ProductTitle,Price,City,Address,CoverImage,District,Description,Type,CategoryName,Name,DealOfTheDay,AdvertisementDate from Product inner join Category on Product.ProductCategory=Category.CategoryID  inner join Employee on Product.EmployeeID=Employee.EmployeeID";
+            using (var connection = _context.CreateConnection())
+            {
+                var values = await connection.QueryAsync<ResultProductWithCategoryDto>(query);
+                return values.ToList();
+            }
+        }
+
+        public async Task<List<ResultProductWithCategoryDto>> GetLast5ProductAsync()
+        {
+            string query = "select top(5) ProductID,ProductTitle,Price,City,Address,CoverImage,District,Description,Type,CategoryName,DealOfTheDay,AdvertisementDate from product inner join Category on Product.ProductCategory=Category.CategoryID where type='Kiralık' order by ProductID desc";
             using (var connection = _context.CreateConnection())
             {
                 var values = await connection.QueryAsync<ResultProductWithCategoryDto>(query);
@@ -102,7 +113,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
 
         public async void UpdateProductWithCategory(UpdateProductWithCategoryDto updateProductWithCategoryDto)
         {
-            string query = "Update Product set ProductTitle=@productTitle, Price=@price, City=@city, Address=@address, CoverImage=@coverImage, District=@district, Description=@description, Type=@type, CategoryName=@categoryName, Name=@name, DealOfTheDay=@dealOfTheDay " +
+            string query = "Update Product set ProductTitle=@productTitle, Price=@price, City=@city, Address=@address, CoverImage=@coverImage, District=@district, Description=@description, Type=@type, CategoryName=@categoryName, Name=@name, DealOfTheDay=@dealOfTheDay, AdvertisementDate=@advertisementDate " +
                 "Where ProductID=@productID";
             var parameters = new DynamicParameters();
             parameters.Add("@productTitle", updateProductWithCategoryDto.productTitle);
@@ -116,6 +127,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
             parameters.Add("@categoryName", updateProductWithCategoryDto.productCategory);
             parameters.Add("@name", updateProductWithCategoryDto.employeeID);
             parameters.Add("@dealOfTheDay", updateProductWithCategoryDto.dealOfTheDay);
+            parameters.Add("@advertisementDate", updateProductWithCategoryDto.advertisementDate);
             parameters.Add("@productID", updateProductWithCategoryDto.productID);
             using (var connection = _context.CreateConnection())
             {

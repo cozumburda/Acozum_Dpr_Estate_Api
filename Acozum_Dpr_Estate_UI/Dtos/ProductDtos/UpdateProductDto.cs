@@ -14,6 +14,7 @@
         public string name { get; set; }
         public string type { get; set; }
         public bool dealOfTheDate { get; set; }
+        public DateTime advertisementDate { get; set; }
 
     }
 }
