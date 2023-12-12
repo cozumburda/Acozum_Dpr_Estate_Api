@@ -1,12 +1,15 @@
+using Acozum_Dpr_Estate_Api.Controllers;
 using Acozum_Dpr_Estate_Api.Models.DapperContext;
 using Acozum_Dpr_Estate_Api.Repositories.BottomGridRepositories;
 using Acozum_Dpr_Estate_Api.Repositories.CategoryRepository;
+using Acozum_Dpr_Estate_Api.Repositories.ContactRepositories;
 using Acozum_Dpr_Estate_Api.Repositories.EmployeeRepositories;
 using Acozum_Dpr_Estate_Api.Repositories.PopularLocationRepositories;
 using Acozum_Dpr_Estate_Api.Repositories.ProductRepository;
 using Acozum_Dpr_Estate_Api.Repositories.ServiceRepository;
 using Acozum_Dpr_Estate_Api.Repositories.StatisticsRepositories;
 using Acozum_Dpr_Estate_Api.Repositories.TestimonialRepositories;
+using Acozum_Dpr_Estate_Api.Repositories.ToDoListRepositories;
 using Acozum_Dpr_Estate_Api.Repositories.WhoWeAreRepository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +25,8 @@ builder.Services.AddTransient<IPopularLocationRepository, PopularLocationReposit
 builder.Services.AddTransient<ITestimonialRepository, TestimonialRepository>();
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddTransient<IStatisticsRepository, StatisticsRepository>();
+builder.Services.AddTransient<IContactRepository, ContactRepository>();
+builder.Services.AddTransient<IToDoListRepository, ToDoListRepository>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

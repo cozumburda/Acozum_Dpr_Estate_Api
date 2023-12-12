@@ -29,11 +29,12 @@
                         count++;
                         <tr>
                             <td>@count</td>
-                            <td>@item.advertisementDate.ToShortDateString()</td>
+                            @* <td>@item.advertisementDate.ToShortDateString()</td> *@
+                            <td>@(((DateTime)item.advertisementDate).ToString("dd-MMM-yyyy"))</td>
                             <td>@item.productTitle</td>
                             <td>@item.city-@item.district</td>
                             <td>@item.categoryName</td>
-                            <td>@item.price</td>
+                            <td>₺ @item.price</td>
                             <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
                         </tr>
                     }
