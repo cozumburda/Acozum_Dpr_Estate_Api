@@ -1,0 +1,38 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+
+@await Component.InvokeAsync("_AdminLayoutHeadComponentPartial")
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        @await Component.InvokeAsync("_AdminLayoutSpinnerComponentPartial")
+        <!-- Sidebar Start -->
+        @await Component.InvokeAsync("_EstateAgentLayoutSidebarComponentPartial")
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            @await Component.InvokeAsync("_EstateAgentNavbarComponentPartial")
+            <!-- Blank Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    @RenderBody()
+                </div>
+            </div>
+            <!-- Footer Start -->
+            @await Component.InvokeAsync("_AdminLayoutFooterComponentPartial")
+            <!-- Footer End -->
+        </div>
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+    <!-- JavaScript Libraries -->
+    @await Component.InvokeAsync("_AdminLayoutScriptComponentPartial")
+
+</body>
+</html>

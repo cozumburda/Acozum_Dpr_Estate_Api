@@ -14,6 +14,7 @@
         public int employeeID { get; set; }
         public string type { get; set; }
         public bool dealOfTheDay { get; set; }
+        public bool productStatus { get; set; }
         public DateTime advertisementDate { get; set; }
     }
 }

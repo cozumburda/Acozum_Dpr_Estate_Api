@@ -1,4 +1,5 @@
-﻿using Acozum_Dpr_Estate_Api.Dtos.ProductDtos;
+﻿using Acozum_Dpr_Estate_Api.Dtos.ProductDetailDtos;
+using Acozum_Dpr_Estate_Api.Dtos.ProductDtos;
 using Acozum_Dpr_Estate_Api.Models.DapperContext;
 using Dapper;
 
@@ -13,30 +14,31 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
             _context = context;
         }
 
-        public async void CreateProductWithCategory(CreateProductWithCategoryDto createProductWithCategoryDto)
+        public async Task CreateProductWithCategory(CreateProductWithCategoryDto createProductWithCategoryDto)
         {
-            string query = "insert into Product(ProductTitle,Price,City,Address,CoverImage,District,Description,Type,CategoryName,Name,DealOfTheDay,AdvertisementDate) " +
-                "values (@productTitle,@price,@city,@address,@coverImage,@district,@description,@type,@categoryName,@name,@dealOfTheDay,@advertisementDate)";
+            string query = "insert into Product(ProductTitle,Price,City,Address,CoverImage,District,Description,Type,ProductCategory,EmployeeID,DealOfTheDay,ProductStatus,AdvertisementDate) " +
+                "values (@productTitle,@price,@city,@address,@coverImage,@district,@description,@type,@productCategory,@employeeID,@dealOfTheDay,@productStatus,@advertisementDate)";
             var parameters = new DynamicParameters();
-            parameters.Add("@productTitle", createProductWithCategoryDto.productTitle);
-            parameters.Add("@price", createProductWithCategoryDto.price);
-            parameters.Add("@city", createProductWithCategoryDto.city);
-            parameters.Add("@address", createProductWithCategoryDto.address);
-            parameters.Add("@coverImage", createProductWithCategoryDto.coverImage);
-            parameters.Add("@district", createProductWithCategoryDto.district);
-            parameters.Add("@description", createProductWithCategoryDto.description);
-            parameters.Add("@type", createProductWithCategoryDto.type);
-            parameters.Add("@categoryName", createProductWithCategoryDto.productCategory);
-            parameters.Add("@name", createProductWithCategoryDto.employeeID);
-            parameters.Add("@dealOfTheDay", createProductWithCategoryDto.dealOfTheDay);
-            parameters.Add("@advertisementDate", createProductWithCategoryDto.advertisementDate);
+            parameters.Add("@productTitle", createProductWithCategoryDto.ProductTitle);
+            parameters.Add("@price", createProductWithCategoryDto.Price);
+            parameters.Add("@city", createProductWithCategoryDto.City);
+            parameters.Add("@address", createProductWithCategoryDto.Address);
+            parameters.Add("@coverImage", createProductWithCategoryDto.CoverImage);
+            parameters.Add("@district", createProductWithCategoryDto.District);
+            parameters.Add("@description", createProductWithCategoryDto.Description);
+            parameters.Add("@type", createProductWithCategoryDto.Type);
+            parameters.Add("@productCategory", createProductWithCategoryDto.ProductCategory);
+            parameters.Add("@employeeID", createProductWithCategoryDto.EmployeeID);
+            parameters.Add("@dealOfTheDay", createProductWithCategoryDto.DealOfTheDay);
+            parameters.Add("@advertisementDate", createProductWithCategoryDto.AdvertisementDate);
+            parameters.Add("@productStatus", createProductWithCategoryDto.ProductStatus);
             using (var connection = _context.CreateConnection())
             {
                 await connection.ExecuteAsync(query, parameters);
             };
         }
 
-        public async void DeleteProductWithCategory(int id)
+        public async Task DeleteProductWithCategory(int id)
         {
             string query = "Delete from Product Where ProductID=@productID";
             var parameters = new DynamicParameters();
@@ -77,7 +79,31 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
             }
         }
 
-        public async Task<GetByIDProductWithCategoryDto> GetProductWithCategory(int id)
+        public async Task<List<ResultProductAdvertsListWithCategoryByEmployeeDto>> GetProductAdvertsListByEmployeeByFalseAsync(int id)
+        {
+            string query = "select ProductID,ProductTitle,Price,City,Address,CoverImage,District,Description,Type,CategoryName,DealOfTheDay,ProductStatus,AdvertisementDate from product inner join Category on Product.ProductCategory=Category.CategoryID where EmployeeID=@employeeID and ProductStatus=0";
+            var parameters = new DynamicParameters();
+            parameters.Add("@employeeID", id);
+            using (var connection = _context.CreateConnection())
+            {
+                var values = await connection.QueryAsync<ResultProductAdvertsListWithCategoryByEmployeeDto>(query, parameters);
+                return values.ToList();
+            }
+        }
+
+        public async Task<List<ResultProductAdvertsListWithCategoryByEmployeeDto>> GetProductAdvertsListByEmployeeByTrueAsync(int id)
+        {
+            string query = "select ProductID,ProductTitle,Price,City,Address,CoverImage,District,Description,Type,CategoryName,DealOfTheDay,ProductStatus,AdvertisementDate from product inner join Category on Product.ProductCategory=Category.CategoryID where EmployeeID=@employeeID and ProductStatus=1";
+            var parameters = new DynamicParameters();
+            parameters.Add("@employeeID", id);
+            using (var connection = _context.CreateConnection())
+            {
+                var values = await connection.QueryAsync<ResultProductAdvertsListWithCategoryByEmployeeDto>(query,parameters);
+                return values.ToList();
+            }
+        }
+
+        public async Task<GetByIDProductWithCategoryDto> GetProductByProductIdWithCategoryAsync(int id)
         {
             string query = "Select * from Product Where ProductID=@productID";
             var parameters = new DynamicParameters();
@@ -89,7 +115,19 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
             }
         }
 
-        public async void ProductDealOfTheDayStatusChangeToFalse(int id)
+        public async Task<GetProductDetailByProductIdDto> GetProductDetailByProductIdWithCategoryAsync(int id)
+        {
+            string query = "select ProductDetailID,ProductSize,BedRoomCount,BathCount,RoomCount,GarageSize,BuildYear,ProductDetails.Price,Location,VideoUrl,ProductDetails.ProductID,ProductTitle,City,District,Address,Type,CoverImage,Description,AdvertisementDate,Employee.Name as EmployeeName,Employee.ImageUrl as EmployeeImage,Employee.PhoneNumber as EmployeePhone,Employee.Mail as EmployeeMail from ProductDetails inner join Product on ProductDetails.ProductID=Product.ProductID inner join Employee on Product.EmployeeID=Employee.EmployeeID where ProductDetails.ProductID=@productID";
+            var parameters = new DynamicParameters();
+            parameters.Add("@productID", id);
+            using (var connections = _context.CreateConnection())
+            {
+                var values = await connections.QueryFirstOrDefaultAsync<GetProductDetailByProductIdDto>(query, parameters);
+                return values;
+            }
+        }
+
+        public async Task ProductDealOfTheDayStatusChangeToFalse(int id)
         {
             string query = "Update Product set DealOfTheDay=0 Where ProductID=@productID";
             var parameters = new DynamicParameters();
@@ -100,7 +138,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
             };
         }
 
-        public async void ProductDealOfTheDayStatusChangeToTrue(int id)
+        public async Task ProductDealOfTheDayStatusChangeToTrue(int id)
         {
             string query = "Update Product set DealOfTheDay=1 Where ProductID=@productID";
             var parameters = new DynamicParameters();
@@ -111,7 +149,29 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
             };
         }
 
-        public async void UpdateProductWithCategory(UpdateProductWithCategoryDto updateProductWithCategoryDto)
+        public async Task ProductStatusChangeToFalse(int id)
+        {
+            string query = "Update Product set ProductStatus=0 Where ProductID=@productID";
+            var parameters = new DynamicParameters();
+            parameters.Add("@productID", id);
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, parameters);
+            };
+        }
+
+        public async Task ProductStatusChangeToTrue(int id)
+        {
+            string query = "Update Product set ProductStatus=1 Where ProductID=@productID";
+            var parameters = new DynamicParameters();
+            parameters.Add("@productID", id);
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, parameters);
+            };
+        }
+
+        public async Task UpdateProductWithCategory(UpdateProductWithCategoryDto updateProductWithCategoryDto)
         {
             string query = "Update Product set ProductTitle=@productTitle, Price=@price, City=@city, Address=@address, CoverImage=@coverImage, District=@district, Description=@description, Type=@type, CategoryName=@categoryName, Name=@name, DealOfTheDay=@dealOfTheDay, AdvertisementDate=@advertisementDate " +
                 "Where ProductID=@productID";

@@ -1,0 +1,72 @@
+﻿@model List<ResultEstateAgentDashboardChartDto>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+<div class="col-sm-6">
+    <div class="bg-light text-center rounded p-4">
+        <canvas id="cityCount" style="width:100%"></canvas>
+        @{
+            var xValues = new List<string>();
+            var yValues = new List<int>();
+            // List<string> cities = Model.Select(x => x.City).ToList();
+            // List<int> counts = Model.Select(x => x.CityCount).ToList();
+
+            foreach (var item in Model)
+            {
+                xValues.Add(item.City);
+                yValues.Add(item.CityCount);
+            }
+            <script>
+                const xValues = @Html.Raw(Json.Serialize(xValues));
+                const yValues = @Html.Raw(Json.Serialize(yValues));
+                const barColors = ["#41C9E2", "#7AA2E3", "#ACE2E1", "#40A2E3", "#9BE8D8"];
+                new Chart("cityCount", {
+                    type: "bar",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: yValues
+                        }]
+                    },
+                    options: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: "Şehir - İlan İstatistiği",
+                            responsive: true
+                        }
+                    }
+                });
+            </script>
+        }
+    </div>
+</div>
+<div class="col-sm-6">
+    <div class="bg-light text-center rounded p-4">
+        <canvas id="cityCountpie" style="width:100%"></canvas>
+        <script>
+            const barColorspie = ["#41C9E2", "#7AA2E3", "#ACE2E1", "#40A2E3", "#9BE8D8"];
+            new Chart("cityCountpie", {
+                type: "pie",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        backgroundColor: barColorspie,
+                        data: yValues
+                    }]
+                },
+                options: {
+                    legend: { display: true, position: 'right' },
+                    showLines: { display: true },
+                    title: {
+                        display: true,
+                        text: "Şehir - İlan İstatistiği",
+                        responsive: true
+                    }
+                }
+            });
+        </script>
+    </div>
+</div>

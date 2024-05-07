@@ -1,0 +1,100 @@
+﻿@model List<ResultProductAdvertsListWithCategoryByEmployeeDto>
+
+@{
+    ViewData["Title"] = "PassiveAdverts";
+    Layout = "~/Areas/EstateAgent/Views/LayoutEstateAgent/Index.cshtml";
+}
+
+
+@{string typyazi = ""; }
+@{string caticon = ""; }
+@{string typcolor = ""; }
+@{string catcolor = ""; }
+@{string catyazi = ""; }
+@{string deal = ""; }
+@{string dealtype = ""; }
+@{string lnk = ""; }
+@{int count = 0; }
+<div class="col-12">
+    <div class="bg-light rounded h-100 p-4">
+        <h6 class="mb-4">Pasif İlan Listesi</h6>
+        <div class="table-responsive">
+            <table class="table text-center">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">İlan Başlığı</th>                        
+                        <th scope="col">Kategori</th>
+                        <th scope="col">Fiyat</th>
+                        <th scope="col">Tür</th>
+                        <th scope="col">Sil</th>
+                        <th scope="col">Güncelle</th>
+                        <th scope="col">Sitede Gör</th>
+                        <th scope="col">Aktif/Pasif Yap</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        switch (item.type)
+                        {
+                            case "Satılık":                                
+                                typcolor = "btn btn-success";
+                                typyazi = "Satılık";
+                                break;
+                            case "Kiralık":
+                                typcolor = "btn btn-warning";                                
+                                typyazi = "Kiralık";
+                                break;
+                        }
+                        switch (item.categoryName)
+                        {
+                            case "Villa":
+                                catcolor = "btn btn-primary";
+                                caticon = "fa fa-vihara";
+                                catyazi = "Villa";
+                                break;
+                            case "Yazlık":
+                                catcolor = "btn btn-danger";
+                                caticon = "fa fa-home";
+                                catyazi = "Yazlık";
+                                break;
+                            case "Daire":
+                                catcolor = "btn btn-warning";
+                                caticon = "fa fa-building";
+                                catyazi = "Daire";
+                                break;
+                        }                                   
+                        switch (item.ProductStatus)
+                        {
+                            case true:
+                                deal = "btn btn-outline-danger btn-sm";
+                                dealtype = "Pasif Yap";
+                                lnk = "/EstateAgent/MyAdverts/ProductStatusChangeToFalse";
+                                break;
+                            case false:
+                                deal = "btn btn-outline-success btn-sm";
+                                dealtype = "Aktif Yap";
+                                lnk = "/EstateAgent/MyAdverts/ProductStatusChangeToTrue";
+                                break;
+                        }
+                        count++;
+                        <tr>
+                            <th scope="row">@count</th>
+                            <td>@item.productTitle</td>                            
+                            <td><span class="@catcolor">@catyazi <i class="@caticon"></i> </span> </td>
+                            <td>@item.price</td>
+                            <td> <span class="@typcolor">@typyazi </span> </td>
+                            <td><a href="/Product/DeleteProduct/@item.productID" class="btn btn-outline-danger btn-sm">Sil</a></td>
+                            <td><a href="/Product/UpdateProduct/@item.productID" class="btn btn-outline-success btn-sm">Güncelle</a></td>
+                            <td><a href="/Product/ProductDetail/@item.productID" class="btn btn-outline-primary btn-sm">Sitede Gör</a></td>
+                            <td><a href="@lnk/@item.productID" class="@deal">@dealtype</a></td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <a href="/EstateAgent/MyAdverts/CreateAdvert/" class="btn btn-outline-info">Yeni İlan Girişi</a>
+        </div>
+    </div>
+</div>

@@ -2,7 +2,7 @@
 
 namespace Acozum_Dpr_Estate_UI.ViewComponents.Layout
 {
-    public class _NavbarViewComponentPartial:ViewComponent
+    public class _NavbarViewComponentPartial : ViewComponent
     {
         public IViewComponentResult Invoke()
         {
