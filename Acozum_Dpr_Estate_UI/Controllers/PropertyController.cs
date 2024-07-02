@@ -42,12 +42,13 @@ namespace Acozum_Dpr_Estate_UI.Controllers
             return View();
         }
 
+        [HttpGet("property/GetCityList/{id}")]
         public IActionResult GetCityList(int? id)
         {
             return ViewComponent("_DefaultFeatureCitiesComponentPartial", new { id = id });
         }
 
-        [HttpGet]
+        [HttpGet("property/{slug}/{id}")]
         public async Task<IActionResult> PropertySingle(string slug, int id)
         {
             //var id = 1;
@@ -66,14 +67,14 @@ namespace Acozum_Dpr_Estate_UI.Controllers
             }
             return View();
         }
-        private string CreateSlug(string title)
-        {
-            title = title.ToLowerInvariant(); // Küçük harfe çevir
-            title = title.Replace(" ", "-"); // Boşlukları tire ile değiştir
-            title = System.Text.RegularExpressions.Regex.Replace(title, @"[^a-z0-9\s-]", ""); // Geçersiz karakterleri kaldır
-            title = System.Text.RegularExpressions.Regex.Replace(title, @"\s+", " ").Trim(); // Birden fazla boşluğu tek boşluğa indir ve kenar boşluklarını kaldır
-            title = System.Text.RegularExpressions.Regex.Replace(title, @"\s", "-"); // Boşlukları tire ile değiştir
-            return title;
-        }
+        //private string CreateSlug(string title)
+        //{
+        //    title = title.ToLowerInvariant(); // Küçük harfe çevir
+        //    title = title.Replace(" ", "-"); // Boşlukları tire ile değiştir
+        //    title = System.Text.RegularExpressions.Regex.Replace(title, @"[^a-z0-9\s-]", ""); // Geçersiz karakterleri kaldır
+        //    title = System.Text.RegularExpressions.Regex.Replace(title, @"\s+", " ").Trim(); // Birden fazla boşluğu tek boşluğa indir ve kenar boşluklarını kaldır
+        //    title = System.Text.RegularExpressions.Regex.Replace(title, @"\s", "-"); // Boşlukları tire ile değiştir
+        //    return title;
+        //}
     }
 }

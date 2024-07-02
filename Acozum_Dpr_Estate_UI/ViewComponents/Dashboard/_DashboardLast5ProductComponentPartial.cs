@@ -24,7 +24,7 @@ namespace Acozum_Dpr_Estate_UI.ViewComponents.Dashboard
             {
                 var jsonData = await reponseMessage.Content.ReadAsStringAsync();
                 var values = JsonConvert.DeserializeObject<List<ResultProductDto>>(jsonData);
-                return View(values);
+                return View(values.Where(x=>x.type=="Kiralık").ToList());
             }
 
             return View();

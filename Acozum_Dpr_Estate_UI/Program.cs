@@ -44,17 +44,17 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Default}/{action=Index}/{id?}");
 
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
       name: "property",
       pattern: "property/{slug}/{id}",
-      defaults: new {controller="property",action="PropertySingle"}
+      defaults: new { controller = "property", action = "PropertySingle" }
     );
-    endpoints.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Default}/{action=Index}/{id?}");
 
     endpoints.MapControllerRoute(
       name: "areas",
