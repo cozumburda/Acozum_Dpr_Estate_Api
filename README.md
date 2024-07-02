@@ -36,6 +36,8 @@
 
 <li><span style='font-family:"Segoe UI",sans-serif'>Kategori seçildiğinde şehirler otomatik filtrelenir,</span></li>
 
+<li><span style='font-family:"Segoe UI",sans-serif'>En fazla ilan olan 3 kategori ismi arama çubuğu üzerinde listelenir,</span></li>
+
 <li><span style='font-family:"Segoe UI",sans-serif'>Kullanıcı ilanlarını yayına alıp, yayından kaldırabilir,</span></li>
 
 <li><span style='font-family:"Segoe UI",sans-serif'>Kullanıcı ilana istediği kadar resim ekleyebilir,</span></li>
