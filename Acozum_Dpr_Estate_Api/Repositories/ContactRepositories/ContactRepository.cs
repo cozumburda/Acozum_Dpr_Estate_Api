@@ -1,5 +1,4 @@
 ﻿using Acozum_Dpr_Estate_Api.Dtos.ContactDto;
-using Acozum_Dpr_Estate_Api.Dtos.ProductDtos;
 using Acozum_Dpr_Estate_Api.Models.DapperContext;
 using Dapper;
 
@@ -14,7 +13,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ContactRepositories
             _context = context;
         }
 
-        public async void CreateContact(CreateContactDto createContactDto)
+        public async Task CreateContact(CreateContactDto createContactDto)
         {
             string query = "insert into Contact(Name,Subject,Email,Message,SendDate,Status) values (@name,@subject,@email,@message,@sendDate,@status)";
             var parameters = new DynamicParameters();
@@ -30,7 +29,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ContactRepositories
             };
         }
 
-        public async void DeleteContact(int id)
+        public async Task DeleteContact(int id)
         {
             string query = "Delete from Contact Where ContactID=@contactID";
             var parameters = new DynamicParameters();
@@ -73,7 +72,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ContactRepositories
             }
         }
 
-        public async void UpdateContact(UpdateContactDto updateContactDto)
+        public async Task UpdateContact(UpdateContactDto updateContactDto)
         {
             string query = "Update Contact set Name=@name, Subject=@subject, Email=@subject, Message=@message, SendDate=@sendDate, Status=@status Where ContactID=@contactID";
             var parameters = new DynamicParameters();

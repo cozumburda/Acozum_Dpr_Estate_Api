@@ -1,5 +1,4 @@
 ﻿using Acozum_Dpr_Estate_Api.Dtos.BottomGridDtos;
-using Acozum_Dpr_Estate_Api.Dtos.ServiceDtos;
 using Acozum_Dpr_Estate_Api.Models.DapperContext;
 using Dapper;
 
@@ -14,7 +13,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.BottomGridRepositories
             _context = context;
         }
 
-        public async void CreateBottomGrid(CreateBottomGridDto createBottomGridDto)
+        public async Task CreateBottomGrid(CreateBottomGridDto createBottomGridDto)
         {
             string query = "insert into BottomGrid(Icon, Title, Description) values (@icon,@title,@description)";
             var parameters = new DynamicParameters();
@@ -27,7 +26,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.BottomGridRepositories
             };
         }
 
-        public async void DeleteBottomGrid(int id)
+        public async Task DeleteBottomGrid(int id)
         {
             string query = "Delete from BottomGrid Where BottomGridID=@bottomGridID";
             var parameters = new DynamicParameters();
@@ -38,7 +37,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.BottomGridRepositories
             }
         }
 
-        public async Task<List<ResultBottomGridDto>> GetAllBottomGridAsync()
+        public async Task<List<ResultBottomGridDto>> GetAllBottomGrid()
         {
             string query = "Select * from BottomGrid";
             using (var connection = _context.CreateConnection())
@@ -60,7 +59,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.BottomGridRepositories
             }
         }
 
-        public async void UpdateBottomGrid(UpdateBottomGridDto updateBottomGridDto)
+        public async Task UpdateBottomGrid(UpdateBottomGridDto updateBottomGridDto)
         {
             string query = "Update BottomGrid set Icon=@icon, Title=@title, Description=@description Where BottomGridID=@bottomGridID";
             var parameters = new DynamicParameters();

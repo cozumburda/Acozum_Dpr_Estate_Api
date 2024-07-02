@@ -1,21 +1,24 @@
 ﻿using Acozum_Dpr_Estate_UI.Dtos.TestimonialDtos;
+using Acozum_Dpr_Estate_UI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace Acozum_Dpr_Estate_UI.ViewComponents.HomePage
 {
-    public class _DefaultOurTestimonialComponentPartial:ViewComponent
+    public class _DefaultOurTestimonialComponentPartial : ViewComponent
     {
         private readonly IHttpClientFactory _httpClientFactory;
-
-        public _DefaultOurTestimonialComponentPartial(IHttpClientFactory httpClientFactory)
+        private readonly ApiSettings _apiSettings;
+        public _DefaultOurTestimonialComponentPartial(IHttpClientFactory httpClientFactory, IOptions<ApiSettings> apiSettings)
         {
             _httpClientFactory = httpClientFactory;
+            _apiSettings = apiSettings.Value;
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:44371/api/Testimonials");
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl + "Testimonials");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();

@@ -1,6 +1,5 @@
 ﻿using Acozum_Dpr_Estate_Api.Dtos.PopularLocationDtos;
 using Acozum_Dpr_Estate_Api.Repositories.PopularLocationRepositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Acozum_Dpr_Estate_Api.Controllers
@@ -18,28 +17,28 @@ namespace Acozum_Dpr_Estate_Api.Controllers
         [HttpGet]
         public async Task<IActionResult> PopularLocationList()
         {
-            var value=await _ipopularLocationRepository.GetAllPopularLocationAsync();
+            var value = await _ipopularLocationRepository.GetAllPopularLocation();
             return Ok(value);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreatePopularLocation(CreatePopularLocationDto createPopularLocationDto)
         {
-            _ipopularLocationRepository.CreatePopularLocation(createPopularLocationDto);
+            await _ipopularLocationRepository.CreatePopularLocation(createPopularLocationDto);
             return Ok("Popüler Lokasyonlar Başarılı bir şekilde eklendi.");
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePopularLocation(int id)
         {
-            _ipopularLocationRepository.DeletePopularLocation(id);
+            await _ipopularLocationRepository.DeletePopularLocation(id);
             return Ok("Popüler Lokasyonlar Kısmı Silindi");
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdatePopularLocation(UpdatePopularLocationDto updatePopularLocationDto)
         {
-            _ipopularLocationRepository.UpdatePopularLocation(updatePopularLocationDto);
+            await _ipopularLocationRepository.UpdatePopularLocation(updatePopularLocationDto);
             return Ok("Popüler Lokasyonlar Başarılı Bir Şekilde Güncellendi");
         }
         [HttpGet("{id}")]
@@ -65,7 +64,7 @@ namespace Acozum_Dpr_Estate_Api.Controllers
         //    updatePopularLocationDto.PopularLocationID = id;
         //    updatePopularLocationDto.PopularLocationName = value.PopularLocationName;
         //    updatePopularLocationDto.PopularLocationStatus = value.PopularLocationStatus;
-        //    _ipopularLocationRepository.UpdatePopularLocation(updatePopularLocationDto);
+        //   await _ipopularLocationRepository.UpdatePopularLocation(updatePopularLocationDto);
         //    return Ok("Hizmet Durumu Değiştirildi");
         //}
     }

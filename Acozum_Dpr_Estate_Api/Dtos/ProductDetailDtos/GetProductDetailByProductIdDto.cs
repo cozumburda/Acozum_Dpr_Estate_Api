@@ -24,5 +24,6 @@
         public string EmployeeImage { get; set; }
         public string EmployeePhone { get; set; }
         public string EmployeeMail { get; set; }
+        public string SlugUrl { get; set; }
     }
 }

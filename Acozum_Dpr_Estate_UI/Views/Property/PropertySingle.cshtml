@@ -30,7 +30,7 @@
             <div class="inner mb-4">
                 <ul class="blog-single-author-date align-items-center">
                     <li>
-                        <div class="listing-category"><span>@Model.Type</span></div>
+                        <div class="listing-category"><span> @Model.Type </span></div>
                     </li>
                     <li><span class="fa fa-clock-o"></span> @(month > 0 ? month + " " + "Ay," : "") @day Gün önce</li>
                     <li><span class="fa fa-eye"></span> 250 Kişi İnceledi</li>
@@ -44,12 +44,12 @@
                     <li>
                         <p>@Model.Address, @Model.District, @Model.City </p>
                     </li>
-                    <li><span class="fa fa-bed"></span> @Model.BedRoomCount</li>
-                    <li><span class="fa fa-bath"></span> @Model.BathCount</li>
+                    <li><span class="fa fa-bed"></span> @Model.BedRoomCount Yatak Odası</li>
+                    <li><span class="fa fa-bath"></span> @Model.BathCount Banyo</li>
                     <li><span class="fa fa-share-square-o"></span> @Model.ProductSize Metrekare</li>
                 </ul>
                 <ul class="share-post">
-                    <a href="#url" class="cost-estate m-o">₺ @Model.Price.ToString("#,###")</a>
+                    <a href="#" class="cost-estate m-o">₺ @Model.Price.ToString("#,###")</a>
                 </ul>
             </div>
             <div class="row">
@@ -57,7 +57,7 @@
                     <div class="blog-single-post">
                         <div class="single-post-image mb-5">
                             <div class="owl-blog owl-carousel owl-theme">
-                                @await Component.InvokeAsync("_PropertySingleImagesComponentPartial")
+                                @await Component.InvokeAsync("_PropertySingleImagesComponentPartial", new { id = ViewBag.pId })
                             </div>
                         </div>
 
@@ -65,7 +65,7 @@
                             <h3 class="post-content-title mb-3">Açıklama</h3>
                             <div>@Html.Raw(Model.Description)</div>
                             <div class="single-bg-white">
-                                <h3 class="post-content-title mb-4">Detaylar</h3>
+                                <h3 class="post-content-title mb-4">İlan Detayları</h3>
                                 <ul class="details-list">
                                     <li><strong>Emlak id :</strong> @Model.ProductDetailID </li>
                                     <li><strong>Alan :</strong> @Model.ProductSize M.kare </li>
@@ -78,33 +78,24 @@
                                     @* <li><strong>Garages :</strong> @Model.GarageSize </li> *@
                                     <li><strong>Fiyat :</strong> ₺ @Model.Price.ToString("#,###") </li>
                                     <li><strong>Yapım Yılı :</strong> @Model.BuildYear </li>
-                                    <li><strong>Kullanıma Başlanma :</strong> @Model.BuildYear </li>
+                                    <li><strong>İlan Tarihi :</strong> <small>@Model.AdvertisementDate.ToString("dd-MMM-yyyy")</small> </li>
                                 </ul>
                             </div>
-                            <div class="single-bg-white">
-                                <h3 class="post-content-title mb-4">Özellikler</h3>
-                                <ul class="details-list">
-                                    <li><strong>Air Conditioning </strong></li>
-                                    <li><strong>Buil-In Wardrobes </strong> </li>
-                                    <li><strong>Dishwasher</strong> </li>
-                                    <li><strong>Floor Coverings </strong> </li>
-                                    <li><strong>Medical / Clinic </strong> </li>
-                                    <li><strong>Fencing</strong> </li>
-                                    <li><strong>Internet and wifi </strong> </li>
-                                </ul>
-                            </div>
+                            @await Component.InvokeAsync("_PropertyAmenityStatusTrueByPropertyIdComponentPartial", new { id = ViewBag.pId })
+
                         </div>
 
                         <div class="single-bg-white">
-                            <h3 class="post-content-title mb-4">Konum</h3>
+                            <h3 class="post-content-title mb-4">Lokasyonu</h3>
                             <div class="agent-map">
-                                <iframe src="@Model.Location"
-                                        frameborder="0" style="border:0" allowfullscreen=""></iframe>
+                                @Html.Raw(Model.Location)
+                                @* <iframe src="@Model.Location"
+                            frameborder="0" style="border:0" allowfullscreen=""></iframe> *@
                             </div>
                         </div>
 
                         <div class="single-bg-white mb-0">
-                            <h3 class="post-content-title mb-4">Video</h3>
+                            <h3 class="post-content-title mb-4">Tanıtım Videosu</h3>
                             <div class="post-content">
                                 <iframe src="@Model.VideoUrl" frameborder="0"
                                         allowfullscreen=""></iframe>
@@ -116,14 +107,15 @@
                     <aside class="sidebar">
 
                         <!-- Popular Post Widget-->
+                        @* @await Component.InvokeAsync("_PropertyAppUserComponentPartial") *@
                         <div class="sidebar-widget popular-posts">
                             <div class="sidebar-title">
-                                <h4>İlan Sahibi</h4>
+                                <h4>Emlakçı İletişim Bilgileri</h4>
                             </div>
 
                             <article class="post">
                                 <figure class="post-thumb">
-                                    <img src="@Model.EmployeeImage" class="radius-image" alt="">
+                                    <img src="@Model.EmployeeImage" class="radius-image" style="height:90px" alt="">
                                 </figure>
                                 <div class="text mb-0">
                                     <a href="#">
@@ -140,7 +132,7 @@
                         <!-- Popular Post Widget-->
                         <div class="sidebar-widget popular-posts">
                             <div class="sidebar-title">
-                                <h4>Popular Post</h4>
+                                <h4>Emlakçının Diğer İlanları</h4>
                             </div>
 
                             <article class="post">

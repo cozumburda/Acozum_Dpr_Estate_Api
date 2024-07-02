@@ -1,22 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
+﻿using Acozum_Dpr_Estate_UI.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Acozum_Dpr_Estate_UI.ViewComponents.Dashboard
 {
     public class _DashBoardStatisticsComponentPartial : ViewComponent
     {
         private readonly IHttpClientFactory _httpClientFactory;
-
-        public _DashBoardStatisticsComponentPartial(IHttpClientFactory httpClientFactory)
+        private readonly ApiSettings _apiSettings;
+        public _DashBoardStatisticsComponentPartial(IHttpClientFactory httpClientFactory, IOptions<ApiSettings> apiSettings)
         {
             _httpClientFactory = httpClientFactory;
+            _apiSettings = apiSettings.Value;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
             #region statistic1 - ToplamİlanSayısı
             var client1 = _httpClientFactory.CreateClient();
-            var responseMessage1 = await client1.GetAsync("https://localhost:44371/api/Statistics/ProductCount");
+            var responseMessage1 = await client1.GetAsync(_apiSettings.BaseUrl + "Statistics/ProductCount");
             var jsonData1 = await responseMessage1.Content.ReadAsStringAsync();
             ViewBag.productCount = jsonData1;
             #endregion

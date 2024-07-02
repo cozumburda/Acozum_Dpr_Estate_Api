@@ -1,6 +1,5 @@
 ﻿using Acozum_Dpr_Estate_Api.Dtos.ToDoListDtos;
 using Acozum_Dpr_Estate_Api.Repositories.ToDoListRepositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Acozum_Dpr_Estate_Api.Controllers
@@ -19,28 +18,28 @@ namespace Acozum_Dpr_Estate_Api.Controllers
         [HttpGet]
         public async Task<IActionResult> ToDoListList()
         {
-            var values = await _toDoListRepository.GetAllToDoListAsync();
+            var values = await _toDoListRepository.GetAllToDoList();
             return Ok(values);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateToDoList(CreateToDoListDto createToDoListDto)
         {
-            _toDoListRepository.CreateToDoListAsync(createToDoListDto);
+            await _toDoListRepository.CreateToDoList(createToDoListDto);
             return Ok("Personel Başarılı bir şekilde eklendi.");
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteToDoList(int id)
         {
-            _toDoListRepository.DeleteToDoList(id);
+            await _toDoListRepository.DeleteToDoList(id);
             return Ok("Personel Silindi");
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateToDoList(UpdateToDoListDto updateToDoListDto)
         {
-            _toDoListRepository.UpdateToDoList(updateToDoListDto);
+            await _toDoListRepository.UpdateToDoList(updateToDoListDto);
             return Ok("Personel Başarılı Bir Şekilde Güncellendi");
         }
 
@@ -67,7 +66,7 @@ namespace Acozum_Dpr_Estate_Api.Controllers
             updateToDoListDto.ToDoListID = id;
             updateToDoListDto.Description = value.Description;
             updateToDoListDto.ToDoListStatus = value.ToDoListStatus;
-            _toDoListRepository.UpdateToDoList(updateToDoListDto);
+            await _toDoListRepository.UpdateToDoList(updateToDoListDto);
             return Ok("Personel Durumu Değiştirildi");
         }
     }

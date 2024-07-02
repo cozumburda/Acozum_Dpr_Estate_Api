@@ -25,7 +25,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.StatisticsRepositories
 
         public int ActiveEmployeeCount()
         {
-            string query = "Select Count(*) from Employee where Status=1";
+            string query = "Select Count(*) from AppUser where Status=1";
             using (var connection = _context.CreateConnection())
             {
                 var values = connection.QueryFirstOrDefault<int>(query);
@@ -115,7 +115,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.StatisticsRepositories
 
         public string EmployeeNameByMaxProductCount()
         {
-            string query = "select Name, Count(*) as 'product_count' from Product inner join Employee on Product.EmployeeID=Employee.EmployeeID Group by Name order by product_count desc";
+            string query = "select Name, Count(*) as 'product_count' from Product inner join AppUser on Product.AppUserId=AppUser.UserId Group by Name order by product_count desc";
             using (var connection = _context.CreateConnection())
             {
                 var values = connection.QueryFirstOrDefault<string>(query);

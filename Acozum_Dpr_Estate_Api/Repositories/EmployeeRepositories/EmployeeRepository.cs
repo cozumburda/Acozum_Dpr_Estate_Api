@@ -13,7 +13,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.EmployeeRepositories
             _context = context;
         }
 
-        public async void CreateEmployee(CreateEmployeeDto createEmployeeDto)
+        public async Task CreateEmployee(CreateEmployeeDto createEmployeeDto)
         {
             string query = "insert into Employee(Name,Title,Mail,PhoneNumber,ImageUrl,Status) values (@name,@title,@mail,@phoneNumber,@imageUrl,@status)";
             var parameters = new DynamicParameters();
@@ -29,7 +29,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.EmployeeRepositories
             };
         }
 
-        public async void DeleteEmployee(int id)
+        public async Task DeleteEmployee(int id)
         {
             string query = "Delete from Employee Where EmployeeID=@employeeID";
             var parameters = new DynamicParameters();
@@ -40,7 +40,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.EmployeeRepositories
             }
         }
 
-        public async Task<List<ResultEmployeeDto>> GetAllEmployeeAsync()
+        public async Task<List<ResultEmployeeDto>> GetAllEmployee()
         {
             string query = "Select * from Employee";
             using (var connection = _context.CreateConnection())
@@ -62,7 +62,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.EmployeeRepositories
             }
         }
 
-        public async void UpdateEmployee(UpdateEmployeeDto updateEmployeeDto)
+        public async Task UpdateEmployee(UpdateEmployeeDto updateEmployeeDto)
         {
             string query = "Update Employee set Name=@name, Title=@title, Mail=@mail, PhoneNumber=@phoneNumber, ImageUrl=@imageUrl, Status=@status Where EmployeeID=@employeeID";
             var parameters = new DynamicParameters();

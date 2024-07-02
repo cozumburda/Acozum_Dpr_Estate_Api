@@ -8,10 +8,11 @@
         public string city { get; set; }
         public string district { get; set; }
         public int productCategory { get; set; }
+        public string categoryName { get; set; }
         public string coverImage { get; set; }
         public string address { get; set; }
         public string description { get; set; }
-        public int employeeID { get; set; }
+        public int appUserId { get; set; }
         public string type { get; set; }
         public bool dealOfTheDay { get; set; }
         public bool productStatus { get; set; }

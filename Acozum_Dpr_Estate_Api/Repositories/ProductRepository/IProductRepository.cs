@@ -19,5 +19,8 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
         Task ProductStatusChangeToFalse(int id);
         Task ProductStatusChangeToTrue(int id);
         Task<List<ResultProductWithCategoryDto>> GetLast5ProductAsync();
+        Task<List<ResultLast3ProductsWithCategoryAndEmployeeDto>> GetLast3ProductAsync();
+        Task<List<ResultProductWithSearchListDto>> ResultProductWithSearchList(string? searchKeyValue,int? propertyCategoryId, string? city);
+        Task<List<ResultProductCitiesDto>> ResultProductCities(int? propertyCategoryId);
     }
 }

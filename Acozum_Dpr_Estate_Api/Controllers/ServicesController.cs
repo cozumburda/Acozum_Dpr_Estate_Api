@@ -16,28 +16,28 @@ namespace Acozum_Dpr_Estate_Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetServiceList()
         {
-            var value = await _serviceRepository.GetAllServiceAsync();
+            var value = await _serviceRepository.GetAllService();
             return Ok(value);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateService(CreateServiceDto createServiceDto)
         {
-            _serviceRepository.CreateService(createServiceDto);
+            await _serviceRepository.CreateService(createServiceDto);
             return Ok("Hakkımızda Kısmı Başarılı bir şekilde eklendi.");
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteService(int id)
         {
-            _serviceRepository.DeleteService(id);
+            await _serviceRepository.DeleteService(id);
             return Ok("Hakkımızda Kısmı Silindi");
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateService(UpdateServiceDto updateServiceDto)
         {
-            _serviceRepository.UpdateService(updateServiceDto);
+            await _serviceRepository.UpdateService(updateServiceDto);
             return Ok("Hakkımızda Kısmı Başarılı Bir Şekilde Güncellendi");
         }
         [HttpGet("{id}")]
@@ -63,7 +63,7 @@ namespace Acozum_Dpr_Estate_Api.Controllers
             updateServiceDto.ServiceID = id;
             updateServiceDto.ServiceName = value.ServiceName;
             updateServiceDto.ServiceStatus = value.ServiceStatus;
-            _serviceRepository.UpdateService(updateServiceDto);
+            await _serviceRepository.UpdateService(updateServiceDto);
             return Ok("Hizmet Durumu Değiştirildi");
         }
     }

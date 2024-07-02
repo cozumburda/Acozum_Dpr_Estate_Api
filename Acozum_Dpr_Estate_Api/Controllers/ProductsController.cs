@@ -32,7 +32,7 @@ namespace Acozum_Dpr_Estate_Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct(CreateProductWithCategoryDto createProductWithCategoryDto)
         {
-           await _productRepository.CreateProductWithCategory(createProductWithCategoryDto);
+            await _productRepository.CreateProductWithCategory(createProductWithCategoryDto);
             return Ok("Veri Başarılı bir şekilde eklendi.");
         }
 
@@ -46,7 +46,7 @@ namespace Acozum_Dpr_Estate_Api.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateProduct(UpdateProductWithCategoryDto updateProductWithCategoryDto)
         {
-           await _productRepository.UpdateProductWithCategory(updateProductWithCategoryDto);
+            await _productRepository.UpdateProductWithCategory(updateProductWithCategoryDto);
             return Ok("Veri Başarılı Bir Şekilde Güncellendi");
         }
         [HttpGet("GetProduct")]
@@ -54,7 +54,7 @@ namespace Acozum_Dpr_Estate_Api.Controllers
         {
             var value = await _productRepository.GetProductByProductIdWithCategoryAsync(id);
             return Ok(value);
-        }                
+        }
 
         [HttpGet("ProductDealOfTheDayStatusChangeToTrue/{id}")]
         public async Task<IActionResult> ProductDealOfTheDayStatusChangeToTrue(int id)
@@ -66,7 +66,7 @@ namespace Acozum_Dpr_Estate_Api.Controllers
         [HttpGet("ProductDealOfTheDayStatusChangeToFalse/{id}")]
         public async Task<IActionResult> ProductDealOfTheDayStatusChangeToFalse(int id)
         {
-           await _productRepository.ProductDealOfTheDayStatusChangeToFalse(id);
+            await _productRepository.ProductDealOfTheDayStatusChangeToFalse(id);
             return Ok("İlan Günün Fırsatları Arasından Çıkarıldı");
         }
         [HttpGet("ProductStatusChangeToTrue/{id}")]
@@ -91,10 +91,8 @@ namespace Acozum_Dpr_Estate_Api.Controllers
         [HttpGet("ProductListLast5")]
         public async Task<IActionResult> ProductListLast5()
         {
-            var values1 = await _productRepository.GetAllProductWithCategoryAsync();
-            var list5 = values1.Where(x => x.type == "Kiralık").OrderByDescending(x => x.productID);
-            var top5 = list5.Take(5);
-            return Ok(top5);
+            var values = await _productRepository.GetLast5ProductAsync();
+            return Ok(values);
         }
         [HttpGet("ProductAdvertsListByEmployeeByTrue")]
         public async Task<IActionResult> ProductAdvertsListByEmployeeByTrue(int id)
@@ -107,6 +105,27 @@ namespace Acozum_Dpr_Estate_Api.Controllers
         {
             var values = await _productRepository.GetProductAdvertsListByEmployeeByFalseAsync(id);
             return Ok(values);
+        }
+        [HttpGet("ResultProductWithSearchList")]
+        public async Task<IActionResult> ResultProductWithSearchList(string? searchKeyValue, int? propertyCategoryId, string? city)
+        {
+            var values = await _productRepository.ResultProductWithSearchList(searchKeyValue, propertyCategoryId, city);
+            return Ok(values);
+        }
+
+        [HttpGet("ResultProductCities")]
+        public async Task<IActionResult> ResultProductCities(int? propertyCategoryId)
+        {
+            var values = await _productRepository.ResultProductCities(propertyCategoryId);
+            return Ok(values);
+        }
+
+        [HttpGet("GetLast3ProductAsync")]
+        public async Task<IActionResult> GetLast3ProductAsync()
+        {
+            var values1 = await _productRepository.GetLast3ProductAsync();
+
+            return Ok(values1);
         }
     }
 }

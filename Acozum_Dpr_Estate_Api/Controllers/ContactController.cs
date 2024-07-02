@@ -1,5 +1,4 @@
 ﻿using Acozum_Dpr_Estate_Api.Repositories.ContactRepositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Acozum_Dpr_Estate_Api.Controllers
@@ -18,7 +17,7 @@ namespace Acozum_Dpr_Estate_Api.Controllers
         [HttpGet("GetLast4ContactAsync")]
         public async Task<IActionResult> GetLast4ContactAsync()
         {
-            var values=await _contactRepository.GetLast4ContactAsync();
+            var values = await _contactRepository.GetLast4ContactAsync();
             return Ok(values);
         }
     }

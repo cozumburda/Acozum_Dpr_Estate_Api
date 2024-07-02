@@ -16,7 +16,7 @@ namespace Acozum_Dpr_Estate_Api.Controllers
         [HttpGet]
         public async Task<IActionResult> TestimonialList()
         {
-            var value = await _testimonialRepository.GetAllTestimonialAsync();
+            var value = await _testimonialRepository.GetAllTestimonial();
             return Ok(value);
         }
     }

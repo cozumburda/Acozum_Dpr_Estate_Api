@@ -4,10 +4,10 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ToDoListRepositories
 {
     public interface IToDoListRepository
     {
-        Task<List<ResultToDoListDto>> GetAllToDoListAsync();
-        void CreateToDoListAsync(CreateToDoListDto createToDoListDto);
-        void DeleteToDoList(int id);
-        void UpdateToDoList(UpdateToDoListDto updateToDoListDto);
+        Task<List<ResultToDoListDto>> GetAllToDoList();
+        Task CreateToDoList(CreateToDoListDto createToDoListDto);
+        Task DeleteToDoList(int id);
+        Task UpdateToDoList(UpdateToDoListDto updateToDoListDto);
         Task<GetByIDToDoListDto> GetToDoList(int id);
     }
 }

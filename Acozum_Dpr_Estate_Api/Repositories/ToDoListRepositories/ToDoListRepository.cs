@@ -13,7 +13,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ToDoListRepositories
             _context = context;
         }
 
-        public async void CreateToDoListAsync(CreateToDoListDto createToDoListDto)
+        public async Task CreateToDoList(CreateToDoListDto createToDoListDto)
         {
             string query = "insert into ToDoList(Description,Status) values (@description,@status)";
             var parameters = new DynamicParameters();
@@ -25,7 +25,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ToDoListRepositories
             };
         }
 
-        public async void DeleteToDoList(int id)
+        public async Task DeleteToDoList(int id)
         {
             string query = "Delete from ToDoList Where ToDoListID=@toDoListID";
             var parameters = new DynamicParameters();
@@ -36,7 +36,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ToDoListRepositories
             }
         }
 
-        public async Task<List<ResultToDoListDto>> GetAllToDoListAsync()
+        public async Task<List<ResultToDoListDto>> GetAllToDoList()
         {
             string query = "Select * from ToDoList";
             using (var connection = _context.CreateConnection())
@@ -58,7 +58,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ToDoListRepositories
             }
         }
 
-        public async void UpdateToDoList(UpdateToDoListDto updateToDoListDto)
+        public async Task UpdateToDoList(UpdateToDoListDto updateToDoListDto)
         {
             string query = "Update ToDoList set Description=@description, Status=@status Where ToDoListID=@toDoListID";
             var parameters = new DynamicParameters();

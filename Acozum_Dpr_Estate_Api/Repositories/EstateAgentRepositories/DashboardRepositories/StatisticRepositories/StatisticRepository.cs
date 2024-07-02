@@ -24,7 +24,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.EstateAgentRepositories.DashboardRe
 
         public int ProductCountByEmployeeId(int id)
         {
-            string query = "select Count(*) from Product where EmployeeID=@employeeID";
+            string query = "select Count(*) from Product where AppUserId=@employeeID";
             var parameters = new DynamicParameters();
             parameters.Add("@employeeID", id);
             using (var connection = _context.CreateConnection())
@@ -36,7 +36,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.EstateAgentRepositories.DashboardRe
 
         public int ProductCountByStatusFalse(int id)
         {
-            string query = "select Count(*) from Product where EmployeeID=@employeeID and ProductStatus=0";
+            string query = "select Count(*) from Product where AppUserId=@employeeID and ProductStatus=0";
             var parameters = new DynamicParameters();
             parameters.Add("@employeeID", id);
             using (var connection = _context.CreateConnection())
@@ -48,7 +48,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.EstateAgentRepositories.DashboardRe
 
         public int ProductCountByStatusTrue(int id)
         {
-            string query = "select Count(*) from Product where EmployeeID=@employeeID and ProductStatus=1";
+            string query = "select Count(*) from Product where AppUserId=@employeeID and ProductStatus=1";
             var parameters = new DynamicParameters();
             parameters.Add("@employeeID", id);
             using (var connection = _context.CreateConnection())

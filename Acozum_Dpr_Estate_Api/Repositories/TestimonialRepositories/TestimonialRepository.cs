@@ -14,7 +14,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.TestimonialRepositories
             _context = context;
         }
 
-        public async void CreateTestimonial(CreateTestimonialDto createTestimonialDto)
+        public async Task CreateTestimonial(CreateTestimonialDto createTestimonialDto)
         {
             string query = "insert into Testimonial(NameSurname, Title, Comment, Status) values (@nameSurname,@title,@comment,@status)";
             var parameters = new DynamicParameters();
@@ -28,7 +28,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.TestimonialRepositories
             };
         }
 
-        public async void DeleteTestimonial(int id)
+        public async Task DeleteTestimonial(int id)
         {
             string query = "Delete from Testimonial Where TestimonialID=@testimonialID";
             var parameters = new DynamicParameters();
@@ -39,7 +39,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.TestimonialRepositories
             }
         }
 
-        public async Task<List<ResultTestimonialDto>> GetAllTestimonialAsync()
+        public async Task<List<ResultTestimonialDto>> GetAllTestimonial()
         {
             string query = "Select * from Testimonial";
             using (var connection = _context.CreateConnection())
@@ -61,7 +61,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.TestimonialRepositories
             }
         }
 
-        public async void UpdateTestimonial(UpdateTestimonialDto updateTestimonialDto)
+        public async Task UpdateTestimonial(UpdateTestimonialDto updateTestimonialDto)
         {
             string query = "Update Testimonial set NameSurname=@nameSurname, Title=@title, Comment=@comment, Status=@status Where TestimonialID=@testimonialID";
             var parameters = new DynamicParameters();

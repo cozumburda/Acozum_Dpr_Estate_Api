@@ -2,6 +2,7 @@
 using Acozum_Dpr_Estate_Api.Dtos.ProductDtos;
 using Acozum_Dpr_Estate_Api.Models.DapperContext;
 using Dapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
 {
@@ -16,8 +17,8 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
 
         public async Task CreateProductWithCategory(CreateProductWithCategoryDto createProductWithCategoryDto)
         {
-            string query = "insert into Product(ProductTitle,Price,City,Address,CoverImage,District,Description,Type,ProductCategory,EmployeeID,DealOfTheDay,ProductStatus,AdvertisementDate) " +
-                "values (@productTitle,@price,@city,@address,@coverImage,@district,@description,@type,@productCategory,@employeeID,@dealOfTheDay,@productStatus,@advertisementDate)";
+            string query = "insert into Product(ProductTitle,Price,City,Address,CoverImage,District,Description,Type,ProductCategory,AppUserId,DealOfTheDay,ProductStatus,AdvertisementDate) " +
+                "values (@productTitle,@price,@city,@address,@coverImage,@district,@description,@type,@productCategory,@appUserId,@dealOfTheDay,@productStatus,@advertisementDate)";
             var parameters = new DynamicParameters();
             parameters.Add("@productTitle", createProductWithCategoryDto.ProductTitle);
             parameters.Add("@price", createProductWithCategoryDto.Price);
@@ -28,7 +29,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
             parameters.Add("@description", createProductWithCategoryDto.Description);
             parameters.Add("@type", createProductWithCategoryDto.Type);
             parameters.Add("@productCategory", createProductWithCategoryDto.ProductCategory);
-            parameters.Add("@employeeID", createProductWithCategoryDto.EmployeeID);
+            parameters.Add("@appUserId", createProductWithCategoryDto.AppUserId);
             parameters.Add("@dealOfTheDay", createProductWithCategoryDto.DealOfTheDay);
             parameters.Add("@advertisementDate", createProductWithCategoryDto.AdvertisementDate);
             parameters.Add("@productStatus", createProductWithCategoryDto.ProductStatus);
@@ -61,7 +62,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
 
         public async Task<List<ResultProductWithCategoryDto>> GetAllProductWithCategoryAsync()
         {
-            string query = "Select ProductID,ProductTitle,Price,City,Address,CoverImage,District,Description,Type,CategoryName,Name,DealOfTheDay,AdvertisementDate from Product inner join Category on Product.ProductCategory=Category.CategoryID  inner join Employee on Product.EmployeeID=Employee.EmployeeID";
+            string query = "Select ProductID,ProductTitle,Price,City,Address,CoverImage,District,Description,Type,CategoryName,Name,DealOfTheDay,AdvertisementDate from Product inner join Category on Product.ProductCategory=Category.CategoryID  inner join AppUser on Product.AppUserId=AppUser.UserId";
             using (var connection = _context.CreateConnection())
             {
                 var values = await connection.QueryAsync<ResultProductWithCategoryDto>(query);
@@ -69,9 +70,19 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
             }
         }
 
+        public async Task<List<ResultLast3ProductsWithCategoryAndEmployeeDto>> GetLast3ProductAsync()
+        {
+            string query = "select top(3) ProductID,ProductTitle,Price,City,Address,CoverImage,District,Description,Type,CategoryName,Name,DealOfTheDay,AdvertisementDate from product inner join Category on Product.ProductCategory=Category.CategoryID inner join AppUser on Product.AppUserId=AppUser.UserId order by ProductID desc";
+            using (var connection = _context.CreateConnection())
+            {
+                var values = await connection.QueryAsync<ResultLast3ProductsWithCategoryAndEmployeeDto>(query);
+                return values.ToList();
+            }
+        }
+
         public async Task<List<ResultProductWithCategoryDto>> GetLast5ProductAsync()
         {
-            string query = "select top(5) ProductID,ProductTitle,Price,City,Address,CoverImage,District,Description,Type,CategoryName,DealOfTheDay,AdvertisementDate from product inner join Category on Product.ProductCategory=Category.CategoryID where type='Kiralık' order by ProductID desc";
+            string query = "select top(5) ProductID,ProductTitle,Price,City,Address,CoverImage,District,Description,Type,CategoryName,Name,DealOfTheDay,AdvertisementDate from product inner join Category on Product.ProductCategory=Category.CategoryID inner join AppUser on Product.AppUserId=AppUser.UserId order by ProductID desc";
             using (var connection = _context.CreateConnection())
             {
                 var values = await connection.QueryAsync<ResultProductWithCategoryDto>(query);
@@ -81,9 +92,9 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
 
         public async Task<List<ResultProductAdvertsListWithCategoryByEmployeeDto>> GetProductAdvertsListByEmployeeByFalseAsync(int id)
         {
-            string query = "select ProductID,ProductTitle,Price,City,Address,CoverImage,District,Description,Type,CategoryName,DealOfTheDay,ProductStatus,AdvertisementDate from product inner join Category on Product.ProductCategory=Category.CategoryID where EmployeeID=@employeeID and ProductStatus=0";
+            string query = "select ProductID,ProductTitle,Price,City,Address,CoverImage,District,Description,Type,CategoryName,DealOfTheDay,ProductStatus,AdvertisementDate from product inner join Category on Product.ProductCategory=Category.CategoryID where AppUserId=@appUserId and ProductStatus=0";
             var parameters = new DynamicParameters();
-            parameters.Add("@employeeID", id);
+            parameters.Add("@appUserId", id);
             using (var connection = _context.CreateConnection())
             {
                 var values = await connection.QueryAsync<ResultProductAdvertsListWithCategoryByEmployeeDto>(query, parameters);
@@ -93,19 +104,19 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
 
         public async Task<List<ResultProductAdvertsListWithCategoryByEmployeeDto>> GetProductAdvertsListByEmployeeByTrueAsync(int id)
         {
-            string query = "select ProductID,ProductTitle,Price,City,Address,CoverImage,District,Description,Type,CategoryName,DealOfTheDay,ProductStatus,AdvertisementDate from product inner join Category on Product.ProductCategory=Category.CategoryID where EmployeeID=@employeeID and ProductStatus=1";
+            string query = "select ProductID,ProductTitle,Price,City,Address,CoverImage,District,Description,Type,CategoryName,DealOfTheDay,ProductStatus,AdvertisementDate from product inner join Category on Product.ProductCategory=Category.CategoryID where AppUserId=@appUserId and ProductStatus=1";
             var parameters = new DynamicParameters();
-            parameters.Add("@employeeID", id);
+            parameters.Add("@appUserId", id);
             using (var connection = _context.CreateConnection())
             {
-                var values = await connection.QueryAsync<ResultProductAdvertsListWithCategoryByEmployeeDto>(query,parameters);
+                var values = await connection.QueryAsync<ResultProductAdvertsListWithCategoryByEmployeeDto>(query, parameters);
                 return values.ToList();
             }
         }
 
         public async Task<GetByIDProductWithCategoryDto> GetProductByProductIdWithCategoryAsync(int id)
         {
-            string query = "Select * from Product Where ProductID=@productID";
+            string query = "Select ProductID, ProductTitle,Price,City,District,Description,CategoryName,CoverImage,Type,Address,DealOfTheDay,AdvertisementDate,AppUserId from Product inner join Category on Product.ProductCategory=Category.CategoryID Where ProductID=@productID";
             var parameters = new DynamicParameters();
             parameters.Add("@productID", id);
             using (var connections = _context.CreateConnection())
@@ -117,7 +128,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
 
         public async Task<GetProductDetailByProductIdDto> GetProductDetailByProductIdWithCategoryAsync(int id)
         {
-            string query = "select ProductDetailID,ProductSize,BedRoomCount,BathCount,RoomCount,GarageSize,BuildYear,ProductDetails.Price,Location,VideoUrl,ProductDetails.ProductID,ProductTitle,City,District,Address,Type,CoverImage,Description,AdvertisementDate,Employee.Name as EmployeeName,Employee.ImageUrl as EmployeeImage,Employee.PhoneNumber as EmployeePhone,Employee.Mail as EmployeeMail from ProductDetails inner join Product on ProductDetails.ProductID=Product.ProductID inner join Employee on Product.EmployeeID=Employee.EmployeeID where ProductDetails.ProductID=@productID";
+            string query = "select ProductDetailID,ProductSize,BedRoomCount,BathCount,RoomCount,GarageSize,BuildYear,ProductDetails.Price,Location,VideoUrl,ProductDetails.ProductID,ProductTitle,City,District,Address,Type,CoverImage,Description,AdvertisementDate,AppUser.Name as EmployeeName,AppUser.ImageUrl as EmployeeImage,AppUser.PhoneNumber as EmployeePhone,AppUser.Email as EmployeeMail,SlugUrl from ProductDetails inner join Product on ProductDetails.ProductID=Product.ProductID inner join AppUser on Product.AppUserId=AppUser.UserId where ProductDetails.ProductID=@productID";
             var parameters = new DynamicParameters();
             parameters.Add("@productID", id);
             using (var connections = _context.CreateConnection())
@@ -171,6 +182,129 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
             };
         }
 
+        public async Task<List<ResultProductCitiesDto>> ResultProductCities(int? propertyCategoryId)
+        {
+            if (propertyCategoryId == null) { propertyCategoryId = 0; }
+            if (propertyCategoryId != 0)
+            {
+                string query = "Select DISTINCT City from Product Where ProductCategory=@productCategory";
+                var parameters = new DynamicParameters();
+                parameters.Add("@productCategory", propertyCategoryId);
+                using (var connections = _context.CreateConnection())
+                {
+                    var values = await connections.QueryAsync<ResultProductCitiesDto>(query, parameters);
+                    return values.ToList();
+                }
+            }
+            else
+            {
+                string query = "Select DISTINCT City from Product";
+
+                using (var connections = _context.CreateConnection())
+                {
+                    var values = await connections.QueryAsync<ResultProductCitiesDto>(query);
+                    return values.ToList();
+                }
+            }
+        }
+
+        public async Task<List<ResultProductWithSearchListDto>> ResultProductWithSearchList(string? searchKeyValue, int? propertyCategoryId, string? city)
+        {
+            if (propertyCategoryId == null) { propertyCategoryId = 0; }
+
+            if (!string.IsNullOrEmpty(searchKeyValue) & propertyCategoryId != 0 & !string.IsNullOrEmpty(city))
+            {
+                string query = "Select ProductID,ProductTitle,SlugUrl,Price,City,Address,CoverImage,District,Description,Type,CategoryName,Name,DealOfTheDay,AdvertisementDate from Product inner join Category on Product.ProductCategory=Category.CategoryID  inner join AppUser on Product.AppUserId=AppUser.UserId Where ProductTitle like " + "'%" + searchKeyValue + "%'" + "And ProductCategory=@productCategory And City=@city And ProductStatus=1";
+                var parameters = new DynamicParameters();
+                //parameters.Add("@productTitle", searchKeyValue);
+                parameters.Add("@productCategory", propertyCategoryId);
+                parameters.Add("@city", city);
+                using (var connections = _context.CreateConnection())
+                {
+                    var values = await connections.QueryAsync<ResultProductWithSearchListDto>(query, parameters);
+                    return values.ToList();
+                }
+            }
+            else if (!string.IsNullOrEmpty(searchKeyValue) & propertyCategoryId != 0 & string.IsNullOrEmpty(city))
+            {
+                string query = "Select ProductID,ProductTitle,SlugUrl,Price,City,Address,CoverImage,District,Description,Type,CategoryName,Name,DealOfTheDay,AdvertisementDate from Product inner join Category on Product.ProductCategory=Category.CategoryID  inner join AppUser on Product.AppUserId=AppUser.UserId Where ProductTitle like " + "'%" + searchKeyValue + "%'" + "And ProductCategory=@productCategory And ProductStatus=1";
+                var parameters = new DynamicParameters();
+                parameters.Add("@productCategory", propertyCategoryId);
+                using (var connections = _context.CreateConnection())
+                {
+                    var values = await connections.QueryAsync<ResultProductWithSearchListDto>(query, parameters);
+                    return values.ToList();
+                }
+            }
+            else if (!string.IsNullOrEmpty(searchKeyValue) & propertyCategoryId == 0 & !string.IsNullOrEmpty(city))
+            {
+                string query = "Select ProductID,ProductTitle,SlugUrl,Price,City,Address,CoverImage,District,Description,Type,CategoryName,Name,DealOfTheDay,AdvertisementDate from Product inner join Category on Product.ProductCategory=Category.CategoryID  inner join AppUser on Product.AppUserId=AppUser.UserId Where ProductTitle like " + "'%" + searchKeyValue + "%'" + "And City=@city And ProductStatus=1";
+                var parameters = new DynamicParameters();
+                //parameters.Add("@productTitle", searchKeyValue);                
+                parameters.Add("@city", city);
+                using (var connections = _context.CreateConnection())
+                {
+                    var values = await connections.QueryAsync<ResultProductWithSearchListDto>(query, parameters);
+                    return values.ToList();
+                }
+            }
+            else if (!string.IsNullOrEmpty(searchKeyValue) & propertyCategoryId == 0 & string.IsNullOrEmpty(city))
+            {
+                string query = "Select ProductID,ProductTitle,SlugUrl,Price,City,Address,CoverImage,District,Description,Type,CategoryName,Name,DealOfTheDay,AdvertisementDate from Product inner join Category on Product.ProductCategory=Category.CategoryID  inner join AppUser on Product.AppUserId=AppUser.UserId Where ProductTitle like " + "'%" + searchKeyValue + "%'" + "And ProductStatus=1";
+
+                using (var connections = _context.CreateConnection())
+                {
+                    var values = await connections.QueryAsync<ResultProductWithSearchListDto>(query);
+                    return values.ToList();
+                }
+            }
+            else if (string.IsNullOrEmpty(searchKeyValue) & propertyCategoryId != 0 & !string.IsNullOrEmpty(city))
+            {
+                string query = "Select ProductID,ProductTitle,SlugUrl,Price,City,Address,CoverImage,District,Description,Type,CategoryName,Name,DealOfTheDay,AdvertisementDate from Product inner join Category on Product.ProductCategory=Category.CategoryID  inner join AppUser on Product.AppUserId=AppUser.UserId Where ProductCategory=@productCategory And City=@city And ProductStatus=1";
+                var parameters = new DynamicParameters();
+                parameters.Add("@productCategory", propertyCategoryId);
+                parameters.Add("@city", city);
+                using (var connections = _context.CreateConnection())
+                {
+                    var values = await connections.QueryAsync<ResultProductWithSearchListDto>(query, parameters);
+                    return values.ToList();
+                }
+            }
+            else if (string.IsNullOrEmpty(searchKeyValue) & propertyCategoryId != 0 & string.IsNullOrEmpty(city))
+            {
+                string query = "Select ProductID,ProductTitle,SlugUrl,Price,City,Address,CoverImage,District,Description,Type,CategoryName,Name,DealOfTheDay,AdvertisementDate from Product inner join Category on Product.ProductCategory=Category.CategoryID  inner join AppUser on Product.AppUserId=AppUser.UserId Where ProductCategory=@productCategory And ProductStatus=1";
+                var parameters = new DynamicParameters();
+                parameters.Add("@productCategory", propertyCategoryId);
+                using (var connections = _context.CreateConnection())
+                {
+                    var values = await connections.QueryAsync<ResultProductWithSearchListDto>(query, parameters);
+                    return values.ToList();
+                }
+            }
+            else if (string.IsNullOrEmpty(searchKeyValue) & propertyCategoryId == 0 & !string.IsNullOrEmpty(city))
+            {
+                string query = "Select ProductID,ProductTitle,SlugUrl,Price,City,Address,CoverImage,District,Description,Type,CategoryName,Name,DealOfTheDay,AdvertisementDate from Product inner join Category on Product.ProductCategory=Category.CategoryID  inner join AppUser on Product.AppUserId=AppUser.UserId Where City=@city And ProductStatus=1";
+                var parameters = new DynamicParameters();
+                parameters.Add("@city", city);
+                using (var connections = _context.CreateConnection())
+                {
+                    var values = await connections.QueryAsync<ResultProductWithSearchListDto>(query, parameters);
+                    return values.ToList();
+                }
+            }
+            else
+            {
+                string query = "Select ProductID,ProductTitle,SlugUrl,Price,City,Address,CoverImage,District,Description,Type,CategoryName,Name,DealOfTheDay,AdvertisementDate from Product inner join Category on Product.ProductCategory=Category.CategoryID  inner join AppUser on Product.AppUserId=AppUser.UserId And ProductStatus=1";
+
+                using (var connections = _context.CreateConnection())
+                {
+                    var values = await connections.QueryAsync<ResultProductWithSearchListDto>(query);
+                    return values.ToList();
+                }
+            }
+
+        }
+
         public async Task UpdateProductWithCategory(UpdateProductWithCategoryDto updateProductWithCategoryDto)
         {
             string query = "Update Product set ProductTitle=@productTitle, Price=@price, City=@city, Address=@address, CoverImage=@coverImage, District=@district, Description=@description, Type=@type, CategoryName=@categoryName, Name=@name, DealOfTheDay=@dealOfTheDay, AdvertisementDate=@advertisementDate " +
@@ -185,7 +319,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
             parameters.Add("@description", updateProductWithCategoryDto.description);
             parameters.Add("@type", updateProductWithCategoryDto.type);
             parameters.Add("@categoryName", updateProductWithCategoryDto.productCategory);
-            parameters.Add("@name", updateProductWithCategoryDto.employeeID);
+            parameters.Add("@name", updateProductWithCategoryDto.appUserId);
             parameters.Add("@dealOfTheDay", updateProductWithCategoryDto.dealOfTheDay);
             parameters.Add("@advertisementDate", updateProductWithCategoryDto.advertisementDate);
             parameters.Add("@productID", updateProductWithCategoryDto.productID);
@@ -194,5 +328,5 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
                 await connection.ExecuteAsync(query, parameters);
             };
         }
-    }    
+    }
 }

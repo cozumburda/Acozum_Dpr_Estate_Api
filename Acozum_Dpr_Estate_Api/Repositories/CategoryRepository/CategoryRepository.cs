@@ -13,7 +13,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.CategoryRepository
             _context = context;
         }
 
-        public async void CreateCategory(CreateCategoryDto createCategoryDto)
+        public async Task CreateCategory(CreateCategoryDto createCategoryDto)
         {
             string query = "insert into Category(CategoryName, CategoryStatus) values (@categoryName,@categoryStatus)";
             var parameters = new DynamicParameters();
@@ -25,7 +25,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.CategoryRepository
             };
         }
 
-        public async void DeleteCategory(int id)
+        public async Task DeleteCategory(int id)
         {
             string query = "Delete from Category Where CategoryID=@categoryID";
             var parameters = new DynamicParameters();
@@ -36,7 +36,7 @@ namespace Acozum_Dpr_Estate_Api.Repositories.CategoryRepository
             }
         }
 
-        public async Task<List<ResultCategoryDto>> GetAllCategoryAsync()
+        public async Task<List<ResultCategoryDto>> GetAllCategory()
         {
             string query = "Select * from Category";
             using (var connection = _context.CreateConnection())
@@ -58,7 +58,17 @@ namespace Acozum_Dpr_Estate_Api.Repositories.CategoryRepository
             }
         }
 
-        public async void UpdateCategory(UpdateCategoryDto updateCategoryDto)
+        public async Task<List<ResultCategoryIncludeProductsDto>> ResultCategoryIncludeProducts()
+        {
+            string query = "select CategoryName,CategoryID, count(ProductID) as adet from product inner join Category on Product.ProductCategory=Category.CategoryID group by CategoryName,CategoryID order by adet desc";
+            using (var connection = _context.CreateConnection())
+            {
+                var values = await connection.QueryAsync<ResultCategoryIncludeProductsDto>(query);
+                return values.ToList();
+            }
+        }
+
+        public async Task UpdateCategory(UpdateCategoryDto updateCategoryDto)
         {
             string query = "Update Category set CategoryName=@categoryName, CategoryStatus=@categoryStatus Where CategoryID=@categoryID";
             var parameters = new DynamicParameters();
