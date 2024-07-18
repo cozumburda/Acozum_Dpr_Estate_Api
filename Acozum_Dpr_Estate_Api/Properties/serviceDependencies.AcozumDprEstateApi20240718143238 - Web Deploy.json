@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "signalr1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/AcozumDprEstateApi20240718143238/providers/Microsoft.ServiceLinker/linkers/AzureSignalRConnectionString_8E61325776",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.SignalRService/SignalR/AcozumDprEstateApi",
+      "type": "signalr.azure",
+      "connectionId": "Azure:SignalR:ConnectionString",
+      "dynamicId": null
+    },
+    "apis1": {
+      "apiEndpoint": "https://acozumdprestateapiapi.azure-api.net/",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/AcozumDprEstateApiapi/apis/AcozumDprEstateApi",
+      "type": "apis.azure"
+    },
+    "mssql1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/AcozumDprEstateApi20240718143238/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsconnection_2C6C29E9AA",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/acozum-dpr-estate-apidbserver/databases/DbDapperAcozum",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:connection"
+    }
+  }
+}

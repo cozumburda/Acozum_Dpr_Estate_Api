@@ -2,6 +2,7 @@
 using Acozum_Dpr_Estate_UI.Dtos.ProductDtos;
 using Acozum_Dpr_Estate_UI.Models;
 using Acozum_Dpr_Estate_UI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
@@ -10,6 +11,7 @@ using System.Text;
 
 namespace Acozum_Dpr_Estate_UI.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
