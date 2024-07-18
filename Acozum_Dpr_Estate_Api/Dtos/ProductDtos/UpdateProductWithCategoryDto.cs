@@ -4,6 +4,7 @@
     {
         public int productID { get; set; }
         public string productTitle { get; set; }
+        public string SlugUrl { get; set; }
         public decimal price { get; set; }
         public string city { get; set; }
         public string district { get; set; }

@@ -61,20 +61,11 @@ namespace Acozum_Dpr_Estate_UI.Controllers
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
                 var values = JsonConvert.DeserializeObject<GetProductDetailByProductIdDto>(jsonData);
                 if (values != null) { ViewBag.t = values.ProductTitle; }
-                //string? slugFromTitle = CreateSlug(values.ProductTitle);
-                //ViewBag.slugUrl = slugFromTitle;
+                
                 return View(values);
             }
             return View();
         }
-        //private string CreateSlug(string title)
-        //{
-        //    title = title.ToLowerInvariant(); // Küçük harfe çevir
-        //    title = title.Replace(" ", "-"); // Boşlukları tire ile değiştir
-        //    title = System.Text.RegularExpressions.Regex.Replace(title, @"[^a-z0-9\s-]", ""); // Geçersiz karakterleri kaldır
-        //    title = System.Text.RegularExpressions.Regex.Replace(title, @"\s+", " ").Trim(); // Birden fazla boşluğu tek boşluğa indir ve kenar boşluklarını kaldır
-        //    title = System.Text.RegularExpressions.Regex.Replace(title, @"\s", "-"); // Boşlukları tire ile değiştir
-        //    return title;
-        //}
+        
     }
 }

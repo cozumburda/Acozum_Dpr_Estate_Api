@@ -93,7 +93,7 @@ namespace Acozum_Dpr_Estate_UI.Areas.EstateAgent.Controllers
         public async Task<IActionResult> CreateAdvert(CreateProductDto createProductDto)
         {
             int userId = int.Parse(_loginService.GetUserId);
-            createProductDto.EmployeeID = userId;
+            createProductDto.AppUserId = userId;
             createProductDto.DealOfTheDay = false;
             createProductDto.AdvertisementDate = DateTime.Now;
             createProductDto.ProductStatus = true;

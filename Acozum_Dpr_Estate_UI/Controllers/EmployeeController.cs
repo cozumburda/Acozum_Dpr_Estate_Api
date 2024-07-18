@@ -1,7 +1,9 @@
 ﻿using Acozum_Dpr_Estate_UI.Dtos.EmployeeDtos;
+using Acozum_Dpr_Estate_UI.Models;
 using Acozum_Dpr_Estate_UI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -12,11 +14,13 @@ namespace Acozum_Dpr_Estate_UI.Controllers
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILoginService _loginService;
+        private readonly ApiSettings _apiSettings;
 
-        public EmployeeController(IHttpClientFactory httpClientFactory, ILoginService loginService)
+        public EmployeeController(IHttpClientFactory httpClientFactory, ILoginService loginService, IOptions<ApiSettings> apiSettings)
         {
             _httpClientFactory = httpClientFactory;
             _loginService = loginService;
+            _apiSettings = apiSettings.Value;
         }
 
         public async Task<IActionResult> Index()
@@ -28,7 +32,7 @@ namespace Acozum_Dpr_Estate_UI.Controllers
             if (token != null)
             {
                 var client = _httpClientFactory.CreateClient();
-                var responseMessage = await client.GetAsync("https://localhost:44371/api/Employees");
+                var responseMessage = await client.GetAsync(_apiSettings.BaseUrl + "Employees");
                 if (responseMessage.IsSuccessStatusCode)
                 {
                     var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -49,7 +53,7 @@ namespace Acozum_Dpr_Estate_UI.Controllers
             var client = _httpClientFactory.CreateClient();
             var jsondata = JsonConvert.SerializeObject(createEmployeeDto);
             StringContent stringContent = new StringContent(jsondata, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:44371/api/Employees", stringContent);
+            var responseMessage = await client.PostAsync(_apiSettings.BaseUrl + "Employees", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -59,7 +63,7 @@ namespace Acozum_Dpr_Estate_UI.Controllers
         public async Task<IActionResult> DeleteEmployee(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.DeleteAsync($"https://localhost:44371/api/Employees/{id}");
+            var responseMessage = await client.DeleteAsync(_apiSettings.BaseUrl + $"Employees/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -70,7 +74,7 @@ namespace Acozum_Dpr_Estate_UI.Controllers
         public async Task<IActionResult> UpdateEmployee(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:44371/api/Employees/{id}");
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl + $"Employees/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsondata = await responseMessage.Content.ReadAsStringAsync();
@@ -86,7 +90,7 @@ namespace Acozum_Dpr_Estate_UI.Controllers
             var client = _httpClientFactory.CreateClient();
             var jsondata = JsonConvert.SerializeObject(updateEmployeeDto);
             StringContent stringContent = new StringContent(jsondata, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:44371/api/Employees", stringContent);
+            var responseMessage = await client.PutAsync(_apiSettings.BaseUrl + "Employees", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -105,7 +109,7 @@ namespace Acozum_Dpr_Estate_UI.Controllers
             var client = _httpClientFactory.CreateClient();
             var jsondata = JsonConvert.SerializeObject(updateEmployeeDto);
             StringContent stringContent = new StringContent(jsondata, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync($"https://localhost:44371/api/Employees/{id}", stringContent);
+            var responseMessage = await client.PutAsync(_apiSettings.BaseUrl + $"Employees/{id}", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");

@@ -21,7 +21,7 @@ namespace Acozum_Dpr_Estate_UI.ViewComponents.HomePage
             string idv = "";
             if (id != null) { idv = "?propertyCategoryId=" + id; }
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl+"Products/ResultProductCities" + idv);
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl + "Products/ResultProductCities" + idv);
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();

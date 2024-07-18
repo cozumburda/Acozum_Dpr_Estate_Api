@@ -21,7 +21,7 @@ namespace Acozum_Dpr_Estate_UI.ViewComponents.PropertySingle
             //int id = int.Parse(ViewData["pId"].ToString());
 
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl + "ProductImages/GetProductImageByProductId?id=" + id);
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl + $"ProductImages/GetProductImageByProductId?id={id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();

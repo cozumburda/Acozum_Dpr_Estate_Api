@@ -1,22 +1,27 @@
 ﻿using Acozum_Dpr_Estate_UI.Dtos.CategoryDtos;
+using Acozum_Dpr_Estate_UI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Text;
 
 namespace Acozum_Dpr_Estate_UI.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-
-        public CategoryController(IHttpClientFactory httpClientFactory)
+        private readonly ApiSettings _apiSettings;
+        public CategoryController(IHttpClientFactory httpClientFactory, IOptions<ApiSettings> apiSettings)
         {
             _httpClientFactory = httpClientFactory;
+            _apiSettings = apiSettings.Value;
         }
         public async Task<IActionResult> Index()
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:44371/api/Categories");
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl + "Categories");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -37,7 +42,7 @@ namespace Acozum_Dpr_Estate_UI.Controllers
             var client = _httpClientFactory.CreateClient();
             var jsondata = JsonConvert.SerializeObject(createCategoryDto);
             StringContent stringContent = new StringContent(jsondata, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:44371/api/Categories", stringContent);
+            var responseMessage = await client.PostAsync(_apiSettings.BaseUrl + "Categories", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -47,7 +52,7 @@ namespace Acozum_Dpr_Estate_UI.Controllers
         public async Task<IActionResult> DeleteCategory(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.DeleteAsync($"https://localhost:44371/api/Categories/{id}");
+            var responseMessage = await client.DeleteAsync(_apiSettings.BaseUrl + $"Categories/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -56,13 +61,13 @@ namespace Acozum_Dpr_Estate_UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> UpdateCategory(int id) 
+        public async Task<IActionResult> UpdateCategory(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:44371/api/Categories/{id}");
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl + $"Categories/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
-                var jsondata=await responseMessage.Content.ReadAsStringAsync();
+                var jsondata = await responseMessage.Content.ReadAsStringAsync();
                 var values = JsonConvert.DeserializeObject<UpdateCategoryDto>(jsondata);
                 return View(values);
             }
@@ -75,7 +80,7 @@ namespace Acozum_Dpr_Estate_UI.Controllers
             var client = _httpClientFactory.CreateClient();
             var jsondata = JsonConvert.SerializeObject(updateCategoryDto);
             StringContent stringContent = new StringContent(jsondata, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:44371/api/Categories", stringContent);
+            var responseMessage = await client.PutAsync(_apiSettings.BaseUrl + "Categories", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -87,10 +92,10 @@ namespace Acozum_Dpr_Estate_UI.Controllers
             updateCategoryDto.CategoryID = 0;
             updateCategoryDto.CategoryName = "string";
             updateCategoryDto.CategoryStatus = true;
-            var client = _httpClientFactory.CreateClient();            
+            var client = _httpClientFactory.CreateClient();
             var jsondata = JsonConvert.SerializeObject(updateCategoryDto);
             StringContent stringContent = new StringContent(jsondata, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync($"https://localhost:44371/api/Categories/{id}",stringContent);
+            var responseMessage = await client.PutAsync(_apiSettings.BaseUrl + $"Categories/{id}", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");

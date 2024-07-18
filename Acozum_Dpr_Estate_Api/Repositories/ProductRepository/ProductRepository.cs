@@ -17,10 +17,11 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
 
         public async Task CreateProductWithCategory(CreateProductWithCategoryDto createProductWithCategoryDto)
         {
-            string query = "insert into Product(ProductTitle,Price,City,Address,CoverImage,District,Description,Type,ProductCategory,AppUserId,DealOfTheDay,ProductStatus,AdvertisementDate) " +
-                "values (@productTitle,@price,@city,@address,@coverImage,@district,@description,@type,@productCategory,@appUserId,@dealOfTheDay,@productStatus,@advertisementDate)";
+            string query = "insert into Product(ProductTitle,SlugUrl,Price,City,Address,CoverImage,District,Description,Type,ProductCategory,AppUserId,DealOfTheDay,ProductStatus,AdvertisementDate) " +
+                "values (@productTitle,@slugUrl,@price,@city,@address,@coverImage,@district,@description,@type,@productCategory,@appUserId,@dealOfTheDay,@productStatus,@advertisementDate)";
             var parameters = new DynamicParameters();
             parameters.Add("@productTitle", createProductWithCategoryDto.ProductTitle);
+            parameters.Add("@slugUrl", createProductWithCategoryDto.SlugUrl);
             parameters.Add("@price", createProductWithCategoryDto.Price);
             parameters.Add("@city", createProductWithCategoryDto.City);
             parameters.Add("@address", createProductWithCategoryDto.Address);
@@ -307,10 +308,11 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
 
         public async Task UpdateProductWithCategory(UpdateProductWithCategoryDto updateProductWithCategoryDto)
         {
-            string query = "Update Product set ProductTitle=@productTitle, Price=@price, City=@city, Address=@address, CoverImage=@coverImage, District=@district, Description=@description, Type=@type, CategoryName=@categoryName, Name=@name, DealOfTheDay=@dealOfTheDay, AdvertisementDate=@advertisementDate " +
+            string query = "Update Product set ProductTitle=@productTitle,SlugUrl=@slugUrl, Price=@price, City=@city, Address=@address, CoverImage=@coverImage, District=@district, Description=@description, Type=@type, ProductCategory=@productCategory, AppUserId=@appUserId, DealOfTheDay=@dealOfTheDay, AdvertisementDate=@advertisementDate " +
                 "Where ProductID=@productID";
             var parameters = new DynamicParameters();
             parameters.Add("@productTitle", updateProductWithCategoryDto.productTitle);
+            parameters.Add("@slugUrl", updateProductWithCategoryDto.SlugUrl);
             parameters.Add("@price", updateProductWithCategoryDto.price);
             parameters.Add("@city", updateProductWithCategoryDto.city);
             parameters.Add("@address", updateProductWithCategoryDto.address);
@@ -318,8 +320,8 @@ namespace Acozum_Dpr_Estate_Api.Repositories.ProductRepository
             parameters.Add("@district", updateProductWithCategoryDto.district);
             parameters.Add("@description", updateProductWithCategoryDto.description);
             parameters.Add("@type", updateProductWithCategoryDto.type);
-            parameters.Add("@categoryName", updateProductWithCategoryDto.productCategory);
-            parameters.Add("@name", updateProductWithCategoryDto.appUserId);
+            parameters.Add("@productCategory", updateProductWithCategoryDto.productCategory);
+            parameters.Add("@appUserId", updateProductWithCategoryDto.appUserId);
             parameters.Add("@dealOfTheDay", updateProductWithCategoryDto.dealOfTheDay);
             parameters.Add("@advertisementDate", updateProductWithCategoryDto.advertisementDate);
             parameters.Add("@productID", updateProductWithCategoryDto.productID);

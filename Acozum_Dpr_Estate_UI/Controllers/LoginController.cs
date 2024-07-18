@@ -3,6 +3,7 @@ using Acozum_Dpr_Estate_UI.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -13,10 +14,11 @@ namespace Acozum_Dpr_Estate_UI.Controllers
     public class LoginController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-
-        public LoginController(IHttpClientFactory httpClientFactory)
+        private readonly ApiSettings _apiSettings;
+        public LoginController(IHttpClientFactory httpClientFactory, IOptions<ApiSettings> apiSettings)
         {
             _httpClientFactory = httpClientFactory;
+            _apiSettings = apiSettings.Value;
         }
         [HttpGet]
         public IActionResult Index()
@@ -28,7 +30,7 @@ namespace Acozum_Dpr_Estate_UI.Controllers
         {
             var client = _httpClientFactory.CreateClient();
             var content = new StringContent(JsonSerializer.Serialize(createLoginDto), Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("https://localhost:44371/api/Login", content);
+            var response = await client.PostAsync(_apiSettings.BaseUrl + "Login", content);
             if (response.IsSuccessStatusCode)
             {
                 var jsondata = await response.Content.ReadAsStringAsync();
@@ -53,9 +55,9 @@ namespace Acozum_Dpr_Estate_UI.Controllers
                         await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProps);
                         return RedirectToAction("Index", "Employee");
                     }
-                   
+
                 }
-               
+
             }
             return View(); ;
         }

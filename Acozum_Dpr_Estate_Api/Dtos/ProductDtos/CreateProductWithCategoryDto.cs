@@ -3,6 +3,7 @@
     public class CreateProductWithCategoryDto
     {        
         public string ProductTitle { get; set; }
+        public string SlugUrl { get; set; }
         public decimal Price { get; set; }
         public string City { get; set; }
         public string District { get; set; }

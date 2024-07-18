@@ -24,7 +24,7 @@ namespace Acozum_Dpr_Estate_UI.ViewComponents.PropertySingle
             //int id = int.Parse(ViewData["pId"].ToString());
             int id = int.Parse(_loginService.GetUserId);
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl + "AppUsers/" + id);
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl + $"AppUsers/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();

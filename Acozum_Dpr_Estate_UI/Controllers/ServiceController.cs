@@ -1,5 +1,7 @@
 ﻿using Acozum_Dpr_Estate_UI.Dtos.ServiceDtos;
+using Acozum_Dpr_Estate_UI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -8,16 +10,17 @@ namespace Acozum_Dpr_Estate_UI.Controllers
     public class ServiceController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-
-        public ServiceController(IHttpClientFactory httpClientFactory)
+        private readonly ApiSettings _apiSettings;
+        public ServiceController(IHttpClientFactory httpClientFactory, IOptions<ApiSettings> apiSettings)
         {
             _httpClientFactory = httpClientFactory;
+            _apiSettings = apiSettings.Value;
         }
 
         public async Task<IActionResult> Index()
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:44371/api/Services");
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl + "Services");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -38,7 +41,7 @@ namespace Acozum_Dpr_Estate_UI.Controllers
             var client = _httpClientFactory.CreateClient();
             var jsondata = JsonConvert.SerializeObject(createServiceDto);
             StringContent stringContent = new StringContent(jsondata, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:44371/api/Services", stringContent);
+            var responseMessage = await client.PostAsync(_apiSettings.BaseUrl + "Services", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -48,7 +51,7 @@ namespace Acozum_Dpr_Estate_UI.Controllers
         public async Task<IActionResult> DeleteService(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.DeleteAsync($"https://localhost:44371/api/Services/{id}");
+            var responseMessage = await client.DeleteAsync(_apiSettings.BaseUrl + $"Services/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -60,7 +63,7 @@ namespace Acozum_Dpr_Estate_UI.Controllers
         public async Task<IActionResult> UpdateService(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:44371/api/Services/{id}");
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl + $"Services/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsondata = await responseMessage.Content.ReadAsStringAsync();
@@ -76,7 +79,7 @@ namespace Acozum_Dpr_Estate_UI.Controllers
             var client = _httpClientFactory.CreateClient();
             var jsondata = JsonConvert.SerializeObject(updateServiceDto);
             StringContent stringContent = new StringContent(jsondata, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:44371/api/Services", stringContent);
+            var responseMessage = await client.PutAsync(_apiSettings.BaseUrl + "Services", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -92,7 +95,7 @@ namespace Acozum_Dpr_Estate_UI.Controllers
             var client = _httpClientFactory.CreateClient();
             var jsondata = JsonConvert.SerializeObject(updateServiceDto);
             StringContent stringContent = new StringContent(jsondata, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync($"https://localhost:44371/api/Services/{id}", stringContent);
+            var responseMessage = await client.PutAsync(_apiSettings.BaseUrl + $"Services/{id}", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");

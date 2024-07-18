@@ -25,21 +25,21 @@ namespace Acozum_Dpr_Estate_UI.ViewComponents.Dashboard
 
             #region Statistics2 - EnBaşarılıPersonel
             var client2 = _httpClientFactory.CreateClient();
-            var responseMessage2 = await client2.GetAsync("https://localhost:44371/api/Statistics/EmployeeNameByMaxProductCount");
+            var responseMessage2 = await client2.GetAsync(_apiSettings.BaseUrl + "Statistics/EmployeeNameByMaxProductCount");
             var jsonData2 = await responseMessage2.Content.ReadAsStringAsync();
             ViewBag.employeeNameByMaxProductCount = jsonData2;
             #endregion
 
             #region Statistics3 - İlandakiŞehirSayısı
             var client3 = _httpClientFactory.CreateClient();
-            var responseMessage3 = await client3.GetAsync("https://localhost:44371/api/Statistics/DifferentCityCount");
+            var responseMessage3 = await client3.GetAsync(_apiSettings.BaseUrl + "Statistics/DifferentCityCount");
             var jsonData3 = await responseMessage3.Content.ReadAsStringAsync();
             ViewBag.differentCityCount = jsonData3;
             #endregion
 
             #region Statistics4
             var client4 = _httpClientFactory.CreateClient();
-            var responseMessage4 = await client4.GetAsync("https://localhost:44371/api/Statistics/AverageProductPriceByRent");
+            var responseMessage4 = await client4.GetAsync(_apiSettings.BaseUrl + "Statistics/AverageProductPriceByRent");
             var jsonData4 = await responseMessage4.Content.ReadAsStringAsync();
             ViewBag.averageProductPriceByRent = jsonData4.Replace(".", ",");
             #endregion
